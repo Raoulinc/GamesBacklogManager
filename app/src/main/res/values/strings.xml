@@ -37,5 +37,6 @@
         <item>Stalled</item>
         <item>Dropped</item>
     </string-array>
+    <string name="title_activity_details">DetailsActivity</string>
 
 </resources>
