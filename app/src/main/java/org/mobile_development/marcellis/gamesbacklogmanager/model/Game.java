@@ -1,6 +1,8 @@
 package org.mobile_development.marcellis.gamesbacklogmanager.model;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -73,4 +75,6 @@ public class Game implements Serializable {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
+
 }

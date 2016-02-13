@@ -24,6 +24,24 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.mobile_development.marcellis.gamesbacklogmanager.activity.MainActivity" />
         </activity>
+        <activity
+            android:name=".activity.AddGameActivity"
+            android:label="@string/title_activity_add_game"
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.mobile_development.marcellis.gamesbacklogmanager.activity.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activity.ModifyGameActivity"
+            android:label="@string/title_activity_modify_game"
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.mobile_development.marcellis.gamesbacklogmanager.activity.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -50,11 +50,7 @@ public class DetailsActivity extends AppCompatActivity {
         notes.setText(game.getNotes());
 
 
-
-
-
         title.setText(game.getTitle());
-
         platform.setText(game.getPlatform());
 
 
