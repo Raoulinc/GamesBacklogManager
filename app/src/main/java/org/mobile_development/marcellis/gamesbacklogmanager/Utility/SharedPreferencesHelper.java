@@ -96,4 +96,32 @@ public class SharedPreferencesHelper {
         //return the ArrayList that we get from method getGamesFromPreferences
         return getGamesFromPreferences();
     }
+
+    private int getIndex(long id){
+        //We will use int index to tell in which spot in the ArrayList we need to overwrite the old
+        //game with the new (modified) game
+        int index = -1;
+        //Determine index based on matching game id's
+        for (Game tempGame : games){
+            if (tempGame.getId() == id){
+                //Game to be modified found, retrieve its index
+                index = games.indexOf(tempGame);
+            }
+        }
+        return index;
+    }
+    public void modifyGame(Game game){
+        //Get the most recent list of games from SharedPreferences
+        games = getGamesFromPreferences();
+
+        //get the index of the outdated game in the arraylist
+        int index = getIndex(game.getId());
+
+        //replace the old version of the game with the updated version
+        games.set(index, game);
+
+        //Save the updated gamelist in SharedPreferences
+        setGamesInPreferences(games);
+    }
+
 }
