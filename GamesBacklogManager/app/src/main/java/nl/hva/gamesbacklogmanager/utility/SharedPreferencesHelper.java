@@ -73,6 +73,21 @@ public class SharedPreferencesHelper {
         return index;
     }
 
+    public void deleteGame(long id){
+        //Get the most recent list of games from SharedPreferences
+        games = getGamesFromPreferences();
+
+        //get the index of the to be deleted game in the arraylist
+        int index = getIndex(id);
+
+        //Delete the game from the ArrayList, based on index
+        games.remove(index);
+
+        //Save the updated gamelist in SharedPreferences
+        setGamesInPreferences(games);
+    }
+
+
     public void modifyGame(Game game) {
         //Get the most recent list of games from SharedPreferences
         games = getGamesFromPreferences();
