@@ -11,10 +11,12 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import nl.hva.gamesbacklogmanager.R;
 import nl.hva.gamesbacklogmanager.adapter.GameListItemAdapter;
 import nl.hva.gamesbacklogmanager.model.Game;
+import nl.hva.gamesbacklogmanager.utility.SharedPreferencesHelper;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,13 +29,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setListView() {
+
         ListView gameList = (ListView) findViewById(R.id.gameList);
-        Game game1 = new Game(1, "Monster Hunter 4", "3DS", new Date(07 / 06 / 2015), "Playing", "");
 
-        ArrayList gameArrayList = new ArrayList();
-        gameArrayList.add(game1);
+        List<Game> games;
 
-        GameListItemAdapter gameListItemAdapter = new GameListItemAdapter(gameArrayList, this);
+        //Create a SharedPreferencesHelper object, and pass it the context of this activity
+        SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(this);
+//get the list of games from SharedPreferences
+        games = sharedPreferencesHelper.getGames();
+
+        //Game game1 = new Game(1, "Monster Hunter 4", "3DS", new Date(07 / 06 / 2015), "Playing", "");
+        // games.add(game1);
+
+        GameListItemAdapter gameListItemAdapter = new GameListItemAdapter(games, this);
 
         gameList.setAdapter(gameListItemAdapter);
 
