@@ -26,7 +26,7 @@ public class GameDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_detail);
 
-      title = (TextView) findViewById(R.id.gameTitle);
+        title = (TextView) findViewById(R.id.gameTitle);
         platform = (TextView) findViewById(R.id.gamePlatform);
         status = (TextView) findViewById(R.id.gameStatus);
         date = (TextView) findViewById(R.id.gameDate);

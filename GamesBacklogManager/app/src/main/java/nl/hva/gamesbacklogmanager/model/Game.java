@@ -14,7 +14,8 @@ public class Game implements Serializable {
     private String gameStatus;
     private String notes = "";
 
-    public Game(){}
+    public Game() {
+    }
 
     public Game(int id, String title, String platform, Date dateAdded, String gameStatus, String notes) {
         this.id = id;
@@ -25,11 +26,11 @@ public class Game implements Serializable {
         this.notes = notes;
     }
 
-    public long getId(){
+    public long getId() {
         return id;
     }
 
-    public void setId(long id){
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -40,6 +41,7 @@ public class Game implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
+
     public String getPlatform() {
         return platform;
     }
