@@ -9,8 +9,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import nl.hva.gamesbacklogmanager.R;
@@ -76,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_add_game){
+        if (id == R.id.action_add_game) {
             Intent intent = new Intent(MainActivity.this, AddGameActivity.class);
             startActivity(intent);
         }
