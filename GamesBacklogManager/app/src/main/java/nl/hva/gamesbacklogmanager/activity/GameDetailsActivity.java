@@ -1,7 +1,10 @@
 package nl.hva.gamesbacklogmanager.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -45,6 +48,28 @@ public class GameDetailsActivity extends AppCompatActivity {
         notes.setText(game.getNotes());
 
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_modify_game) {
+            //Go to ModifyGameActivity, and pass the current game with it to modify
+            Intent intent = new Intent(GameDetailsActivity.this, ModifyGameActivity.class);
+            intent.putExtra("currentGame", game);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_game_details, menu);
+        return true;
     }
 
 
