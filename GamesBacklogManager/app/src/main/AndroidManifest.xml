@@ -17,6 +17,8 @@
         </activity>
         <activity android:name=".activity.GameDetailsActivity">
         </activity>
+        <activity android:name=".activity.AddGameActivity">
+        </activity>
     </application>
 
 </manifest>

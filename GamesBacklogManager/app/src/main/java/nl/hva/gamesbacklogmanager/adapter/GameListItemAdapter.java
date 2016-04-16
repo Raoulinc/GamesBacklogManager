@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class GameListItemAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater inflater;
 
-    public GameListItemAdapter(List<Game> list, Context context){
+    public GameListItemAdapter(List<Game> list, Context context) {
         this.gameArrayList = list;
         this.context = context;
 
@@ -71,7 +70,7 @@ public class GameListItemAdapter extends BaseAdapter {
         return row;
     }
 
-    class ViewHolder{
+    class ViewHolder {
         private TextView title;
         private TextView platform;
         private TextView status;
@@ -79,14 +78,14 @@ public class GameListItemAdapter extends BaseAdapter {
 
 
         //initialize the variables
-        public ViewHolder(View view){
+        public ViewHolder(View view) {
             title = (TextView) view.findViewById(R.id.gameTitle);
             platform = (TextView) view.findViewById(R.id.gamePlatform);
             status = (TextView) view.findViewById(R.id.gameStatus);
             date = (TextView) view.findViewById(R.id.gameDate);
         }
 
-        public void populateRow(Game game){
+        public void populateRow(Game game) {
             title.setText(game.getTitle());
             platform.setText(game.getPlatform());
             status.setText(game.getGameStatus());
