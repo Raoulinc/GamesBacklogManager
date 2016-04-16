@@ -1,7 +1,10 @@
 package nl.hva.gamesbacklogmanager.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -23,14 +26,31 @@ public class MainActivity extends AppCompatActivity {
 
     private void setListView()
     {
-        ListView listView = (ListView) findViewById(R.id.gameList);
-        Game game1 = new Game(1, "Monster Hunter 4", "3DS", new Date(07/06/2015), "Playing", "None");
+        ListView gameList = (ListView) findViewById(R.id.gameList);
+        Game game1 = new Game(1, "Monster Hunter 4", "3DS", new Date(07/06/2015), "Playing", "");
 
-        ArrayList gameList = new ArrayList();
-        gameList.add(game1);
+        ArrayList gameArrayList = new ArrayList();
+        gameArrayList.add(game1);
 
-        GameListItemAdapter gameListItemAdapter = new GameListItemAdapter(gameList, this);
+        GameListItemAdapter gameListItemAdapter = new GameListItemAdapter(gameArrayList, this);
 
-        listView.setAdapter(gameListItemAdapter);
+        gameList.setAdapter(gameListItemAdapter);
+
+        gameList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            //Will trigger when the user clicks on a game
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, GameDetailsActivity.class);
+                //Get the correct game based on which listitem got clicked, and put it as parameter in the intent
+                Game selectedGame = (Game) parent.getAdapter().getItem(position);
+                intent.putExtra("selectedGame", selectedGame);
+                //Open GameDetailsActivity
+                startActivity(intent);
+            }
+        });
+
     }
+
+
 }
