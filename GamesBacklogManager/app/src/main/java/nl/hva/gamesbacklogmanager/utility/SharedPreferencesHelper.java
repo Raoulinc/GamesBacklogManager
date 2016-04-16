@@ -70,6 +70,12 @@ public class SharedPreferencesHelper {
         editor.commit();
     }
 
+    public List<Game> getGames(){
+        //return the ArrayList that we get from method getGamesFromPreferences
+        return getGamesFromPreferences();
+    }
+
+
     private long getAssignableId() {
         //Get the id that we can assign to a game
         long newId = sharedPreferences.getLong(ID_KEY, 0);
