@@ -17,11 +17,6 @@ public class ConfirmDeleteDialog extends DialogFragment {
     * implement this interface in order to receive event callbacks.
     * Each method passes the DialogFragment in case the host needs to query it. */
 
-    public interface ConfirmDeleteDialogListener {
-        public void onDialogPositiveClick(DialogFragment dialog);
-        public void onDialogNegativeClick(DialogFragment dialog);
-    }
-
     // Use this instance of the interface to deliver action events
     ConfirmDeleteDialogListener mListener;
 
@@ -40,23 +35,29 @@ public class ConfirmDeleteDialog extends DialogFragment {
         }
     }
 
-
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState){
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.dialog_game_deletion_confirmation)
                 .setPositiveButton(R.string.delete_game, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id){
+                    public void onClick(DialogInterface dialog, int id) {
                         //activate method onDialogPositiveClick inside implementing class
                         mListener.onDialogPositiveClick(ConfirmDeleteDialog.this);
                     }
                 })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener(){
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         //activate method onDialogNegativeClick inside implementing class
                         mListener.onDialogNegativeClick(ConfirmDeleteDialog.this);
                     }
                 });
         return builder.create();
+    }
+
+
+    public interface ConfirmDeleteDialogListener {
+        public void onDialogPositiveClick(DialogFragment dialog);
+
+        public void onDialogNegativeClick(DialogFragment dialog);
     }
 }

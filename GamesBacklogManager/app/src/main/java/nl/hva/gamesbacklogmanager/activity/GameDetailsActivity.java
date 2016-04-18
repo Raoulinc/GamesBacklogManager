@@ -20,7 +20,7 @@ import nl.hva.gamesbacklogmanager.utility.SharedPreferencesHelper;
 /**
  * Created by Raoul on 16-4-2016.
  */
-public class GameDetailsActivity extends AppCompatActivity  implements ConfirmDeleteDialog.ConfirmDeleteDialogListener {
+public class GameDetailsActivity extends AppCompatActivity implements ConfirmDeleteDialog.ConfirmDeleteDialogListener {
     Game game = new Game();
 
     TextView title;
@@ -47,7 +47,7 @@ public class GameDetailsActivity extends AppCompatActivity  implements ConfirmDe
         //Do nothing, Dialog will disappear
     }
 
-    public void showGameDeletedToast(){
+    public void showGameDeletedToast() {
         Context context = getApplicationContext();
         String text = getString(R.string.game_deleted);
         int duration = Toast.LENGTH_SHORT;
@@ -86,12 +86,12 @@ public class GameDetailsActivity extends AppCompatActivity  implements ConfirmDe
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_modify_game){
+        if (id == R.id.action_modify_game) {
             //Go to ModifyGameActivity, and pass the current game with it to modify
             Intent intent = new Intent(GameDetailsActivity.this, ModifyGameActivity.class);
             intent.putExtra("currentGame", game);
             startActivity(intent);
-        } else if (id == R.id.action_delete_game){
+        } else if (id == R.id.action_delete_game) {
             //Show the ConfirmDeleteDialog
             DialogFragment dialog = new ConfirmDeleteDialog();
             dialog.show(this.getFragmentManager(), "ConfirmDeleteDialog");
@@ -99,7 +99,6 @@ public class GameDetailsActivity extends AppCompatActivity  implements ConfirmDe
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
     @Override
