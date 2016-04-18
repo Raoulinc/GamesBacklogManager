@@ -73,7 +73,7 @@ public class SharedPreferencesHelper {
         return index;
     }
 
-    public void deleteGame(long id){
+    public void deleteGame(long id) {
         //Get the most recent list of games from SharedPreferences
         games = getGamesFromPreferences();
 
