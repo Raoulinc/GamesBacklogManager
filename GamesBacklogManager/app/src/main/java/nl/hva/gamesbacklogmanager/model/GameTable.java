@@ -19,10 +19,10 @@ public class GameTable {
     public static final String KEY_NOTES = "notes";
 
     // property help us to keep data
-    private long id;
-    private String title;
-    private String platform;
-    private Date dateAdded;
-    private String gameStatus;
-    private String notes = "";
+    public long id;
+    public String title;
+    public String platform;
+    public String dateAdded;
+    public String gameStatus;
+    public String notes = "";
 }
