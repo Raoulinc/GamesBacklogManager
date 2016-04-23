@@ -3,8 +3,12 @@ package nl.hva.gamesbacklogmanager.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,18 +17,21 @@ import android.widget.Toast;
 
 import nl.hva.gamesbacklogmanager.R;
 import nl.hva.gamesbacklogmanager.model.Game;
-import nl.hva.gamesbacklogmanager.utility.SharedPreferencesHelper;
+import nl.hva.gamesbacklogmanager.utility.DBCRUD;
+
 
 /**
  * Created by Raoul on 16-4-2016.
  */
-public class ModifyGameActivity extends GameDetailsActivity {
+public class ModifyGameActivity extends AppCompatActivity {
 
     EditText titleInput;
     EditText platformInput;
     Spinner statusSpinner;
     EditText notesInput;
     Button saveButton;
+
+    Game game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +48,28 @@ public class ModifyGameActivity extends GameDetailsActivity {
         Intent intent = getIntent();
         game = (Game) intent.getSerializableExtra("currentGame");
 
-        title.setText(game.getTitle());
-        platform.setText(game.getPlatform());
-        status.setText(game.getGameStatus());
-        notes.setText(game.getNotes());
+        titleInput.setText(game.getTitle());
+        platformInput.setText(game.getPlatform());
+        notesInput.setText(game.getNotes());
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter statusAdapter = ArrayAdapter.createFromResource(this,
                 R.array.game_status, android.R.layout.simple_spinner_item);
 
+        // Specify the layout to use when the list of choices appears
+        statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+//Set the adapter to the spinner
+        statusSpinner.setAdapter(statusAdapter);
+
         setSpinnerPosition(statusAdapter);
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                modifyGame();
+            }
+        });
     }
 
     public void modifyGame() {
@@ -77,9 +96,9 @@ public class ModifyGameActivity extends GameDetailsActivity {
             game.setGameStatus(gameStatus);
             game.setNotes(notes);
 
-            //Create a SharedPreferencesHelper object, and pass it the context of this activity
-            SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(this);
-            sharedPreferencesHelper.modifyGame(game);
+            //Create a DBCRUD object, and pass it the context of this activity
+            DBCRUD dbcrud = new DBCRUD(this);
+            dbcrud.modifyGame(game);
 
             //Notify the user of the success
             showToast(getString(R.string.game_has_been_modified));
@@ -128,5 +147,22 @@ public class ModifyGameActivity extends GameDetailsActivity {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
 
+        if (id == R.id.action_modify_save) {
+            //Go to ModifyGameActivity, and pass the current game with it to modify
+            modifyGame();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_game_modify, menu);
+        return true;
+    }
 }
