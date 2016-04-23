@@ -1,23 +1,35 @@
 package nl.hva.gamesbacklogmanager.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Created by Raoul on 15-4-2016.
  */
 public class Game implements Serializable {
-    private long id;
-    private String title;
-    private String platform;
-    private Date dateAdded;
-    private String gameStatus;
-    private String notes = "";
+
+    // Labels table name
+    public static final String TABLE = "games";
+
+    // Labels Table Columns names
+    public static final String KEY_ID = "id";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_PLATFORM = "platform";
+    public static final String KEY_DATE = "date";
+    public static final String KEY_STATUS = "status";
+    public static final String KEY_NOTES = "notes";
+
+    // property help us to keep data
+    public int id;
+    public String title;
+    public String platform;
+    public String dateAdded; // String, since you cannot save date/time values in SQLite
+    public String gameStatus;
+    public String notes;
 
     public Game() {
     }
 
-    public Game(int id, String title, String platform, Date dateAdded, String gameStatus, String notes) {
+    public Game(int id, String title, String platform, String dateAdded, String gameStatus, String notes) {
         this.id = id;
         this.title = title;
         this.platform = platform;
@@ -30,7 +42,7 @@ public class Game implements Serializable {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -50,11 +62,11 @@ public class Game implements Serializable {
         this.platform = platform;
     }
 
-    public Date getDateAdded() {
+    public String getDateAdded() {
         return dateAdded;
     }
 
-    public void setDateAdded(Date dateAdded) {
+    public void setDateAdded(String dateAdded) {
         this.dateAdded = dateAdded;
     }
 

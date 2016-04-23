@@ -13,13 +13,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import nl.hva.gamesbacklogmanager.R;
 import nl.hva.gamesbacklogmanager.model.Game;
-import nl.hva.gamesbacklogmanager.utility.SharedPreferencesHelper;
+import nl.hva.gamesbacklogmanager.utility.DBCRUD;
 
 /**
  * Created by Raoul on 16-4-2016.
@@ -63,22 +62,15 @@ public class AddGameActivity extends AppCompatActivity {
 
     }
 
-    private Date getSimpleCurrentDate() {
-        Date curDate = null;
+    private String getSimpleCurrentDate() {
+        String curDateString = null;
         //formatter that will convert dates into the day-month-year format
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         //Today's date, but with time included, which we don't want
         Date today = new Date();
-        try {
-            //format.format returns a string, but we need a Date
-            String curDateString = format.format(today);
-            //Parse the date String into a Date object
-            curDate = format.parse(curDateString);
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
-
-        return curDate;
+        //format.format returns a string
+        curDateString = format.format(today);
+        return curDateString;
     }
 
     private void showToast(String message) {
@@ -109,7 +101,7 @@ public class AddGameActivity extends AppCompatActivity {
 
     public void saveGame() {
         //Get the current date in numbered day-month-year format
-        Date curDate = getSimpleCurrentDate();
+        String curDate = getSimpleCurrentDate();
         //Retrieve the input from the user
         String title = titleInput.getText().toString();
         String platform = platformInput.getText().toString();
@@ -127,12 +119,12 @@ public class AddGameActivity extends AppCompatActivity {
             setErrorText(platformInput, getString(R.string.platform_is_required));
             showToast(getString(R.string.plaftorm_field_is_empty));
         } else {
-            //Create a SharedPreferencesHelper object, and pass it the context of this activity
-            SharedPreferencesHelper preferencesHelper = new SharedPreferencesHelper(this);
-            //Make a game object based on the input. The correct id will be set in preferenceHelper.saveGame()
+            //Create a DBCRUD object, and pass it the context of this activity
+            DBCRUD dbcrud = new DBCRUD(this);
+            //Make a game object based on the input. The correct id will be set in DBCRUD.saveGame()
             Game game = new Game(-1, title, platform, curDate, gameStatus, notes);
             //Save the game to sharedPreferences
-            preferencesHelper.saveGame(game);
+            dbcrud.saveGame(game);
 
             //Notify the user with a toast that the game has been added
             showToast(getString(R.string.game_has_been_added));

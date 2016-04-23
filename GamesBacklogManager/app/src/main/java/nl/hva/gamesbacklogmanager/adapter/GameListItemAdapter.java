@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import nl.hva.gamesbacklogmanager.R;
@@ -91,9 +90,9 @@ public class GameListItemAdapter extends BaseAdapter {
             status.setText(game.getGameStatus());
 
             //Convert Date object to String by formatting it
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            String dateString = format.format(game.getDateAdded());
-            date.setText(dateString);
+            //SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            //String dateString = format.format(game.getDateAdded());
+            date.setText(game.getDateAdded());
         }
     }
 }

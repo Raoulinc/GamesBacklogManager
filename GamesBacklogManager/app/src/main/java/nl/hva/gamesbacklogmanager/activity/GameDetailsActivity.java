@@ -10,18 +10,16 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-
 import nl.hva.gamesbacklogmanager.R;
 import nl.hva.gamesbacklogmanager.model.Game;
 import nl.hva.gamesbacklogmanager.utility.ConfirmDeleteDialog;
-import nl.hva.gamesbacklogmanager.utility.SharedPreferencesHelper;
+import nl.hva.gamesbacklogmanager.utility.DBCRUD;
 
 /**
  * Created by Raoul on 16-4-2016.
  */
 public class GameDetailsActivity extends AppCompatActivity implements ConfirmDeleteDialog.ConfirmDeleteDialogListener {
-    Game game = new Game();
+    Game game;
 
     TextView title;
     TextView platform;
@@ -31,10 +29,10 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-        //User clicked on the confirm button of the Dialog, delete the game from SharedPreferences
-        SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper(GameDetailsActivity.this);
+        //User clicked on the confirm button of the Dialog, delete the game from Database
+        DBCRUD dbcrud = new DBCRUD(GameDetailsActivity.this);
         //We only need the id of the game to delete it
-        sharedPreferencesHelper.deleteGame(game.getId());
+        dbcrud.deleteGame(game.getId());
 
         //Game has been deleted, go back to MainActivity
         showGameDeletedToast();
@@ -71,14 +69,13 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
         game = (Game) getIntent().getSerializableExtra("selectedGame");
 
         //Get the Date object from the game, and convert it to a day/month/year String, by formatting it with a SimpleDateFormat object
-        String dateString = new SimpleDateFormat("dd/MM/yyyy").format(game.getDateAdded());
+        //String dateString = new SimpleDateFormat("dd/MM/yyyy").format(game.getDateAdded());
 
         title.setText(game.getTitle());
         platform.setText(game.getPlatform());
         status.setText(game.getGameStatus());
-        date.setText(dateString);
+        date.setText(game.getDateAdded());
         notes.setText(game.getNotes());
-
 
     }
 

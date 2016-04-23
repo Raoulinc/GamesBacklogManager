@@ -17,6 +17,14 @@
         </activity>
         <activity android:name=".activity.GameDetailsActivity">
         </activity>
+        <activity android:name=".activity.ModifyGameActivity"
+                android:parentActivityName=".activity.GameDetailsActivity" >
+                <!-- Parent activity meta-data to support 4.0 and lower -->
+                <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".activity.GameDetailsActivity" />
+
+        </activity>
         <activity android:name=".activity.AddGameActivity">
         </activity>
     </application>

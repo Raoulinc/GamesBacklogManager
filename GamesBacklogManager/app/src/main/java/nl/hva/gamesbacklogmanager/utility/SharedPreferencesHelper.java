@@ -15,7 +15,7 @@ import nl.hva.gamesbacklogmanager.model.Game;
 /**
  * Created by Raoul on 16-4-2016.
  */
-public class SharedPreferencesHelper {
+class SharedPreferencesHelper {
 
     //name of the SharedPreferences file that we will use
     private final String PREFERENCES_FILE = "gameStorage";
@@ -136,7 +136,7 @@ public class SharedPreferencesHelper {
         //Get the most recent list of games from SharedPreferences
         games = getGamesFromPreferences();
         //Give the game the correct id, which we will get from SharedPreferences
-        game.setId(getAssignableId());
+        //game.setId(getAssignableId());
         games.add(game);
 
         //Save the updated gamelist in SharedPreferences
