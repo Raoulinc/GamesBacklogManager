@@ -2,11 +2,20 @@ package nl.hva.gamesbacklogmanager.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import java.util.List;
@@ -19,17 +28,38 @@ import nl.hva.gamesbacklogmanager.utility.DBCRUD;
 
 public class MainActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        setContentView(R.layout.activity_game_main);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         setListView();
+
+        FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fab);
+
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                Intent intent = new Intent(MainActivity.this, AddGameActivity.class);
+                startActivity(intent);
+            }
+        });
     }
+
 
     private void setListView() {
 
-        ListView gameList = (ListView) findViewById(R.id.gameList);
+        RecyclerView gameList = (RecyclerView) findViewById(R.id.gameList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        gameList.setLayoutManager(mLayoutManager);
 
         List<Game> games;
 
@@ -41,23 +71,33 @@ public class MainActivity extends AppCompatActivity {
         //Game game1 = new Game(1, "Monster Hunter 4", "3DS", new Date(07 / 06 / 2015), "Playing", "");
         // games.add(game1);
 
-        GameListItemAdapter gameListItemAdapter = new GameListItemAdapter(games, this);
+        final GameListItemAdapter gameListItemAdapter = new GameListItemAdapter(games, this);
 
-        gameList.setAdapter(gameListItemAdapter);
+        if (gameList != null) {
+            gameList.setAdapter(gameListItemAdapter);
+        }
 
-        gameList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-            //Will trigger when the user clicks on a game
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        gameList.setOnClickListener(new RecyclerView.OnClickListener() {
+            public void onClick(View view) {
+
+                Log.d("hey", "hey");
+
+                View parentRow = (View) view.getParent();
+                ListView listView = (ListView) parentRow.getParent();
+                final int position = listView.getPositionForView(parentRow);
+
                 Intent intent = new Intent(MainActivity.this, GameDetailsActivity.class);
                 //Get the correct game based on which listitem got clicked, and put it as parameter in the intent
-                Game selectedGame = (Game) parent.getAdapter().getItem(position);
+                Game selectedGame = (Game) gameListItemAdapter.getItem(position);
                 intent.putExtra("selectedGame", selectedGame);
                 //Open GameDetailsActivity
                 startActivity(intent);
             }
+
+
         });
+
 
     }
 
@@ -75,8 +115,8 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_add_game) {
-            Intent intent = new Intent(MainActivity.this, AddGameActivity.class);
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, AddGameActivity.class);
             startActivity(intent);
         }
 

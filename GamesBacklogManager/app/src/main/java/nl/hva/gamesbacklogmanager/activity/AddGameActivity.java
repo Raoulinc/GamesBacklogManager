@@ -1,14 +1,14 @@
 package nl.hva.gamesbacklogmanager.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.FloatingActionButton;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -23,24 +23,24 @@ import nl.hva.gamesbacklogmanager.utility.DBCRUD;
 /**
  * Created by Raoul on 16-4-2016.
  */
-public class AddGameActivity extends AppCompatActivity {
+public class AddGameActivity extends Activity {
 
     EditText titleInput;
     EditText platformInput;
     Spinner statusSpinner;
     EditText notesInput;
-    Button saveButton;
+    FloatingActionButton saveButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_game);
+        setContentView(R.layout.activity_game_input);
 
         titleInput = (EditText) findViewById(R.id.gameTitle);
         platformInput = (EditText) findViewById(R.id.gamePlatform);
         statusSpinner = (Spinner) findViewById(R.id.spinner);
         notesInput = (EditText) findViewById(R.id.notes);
-        saveButton = (Button) findViewById(R.id.submit_area);
+        saveButton = (FloatingActionButton) findViewById(R.id.action_save);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter statusAdapter = ArrayAdapter.createFromResource(this,
@@ -58,8 +58,6 @@ public class AddGameActivity extends AppCompatActivity {
                 saveGame();
             }
         });
-
-
     }
 
     private String getSimpleCurrentDate() {
