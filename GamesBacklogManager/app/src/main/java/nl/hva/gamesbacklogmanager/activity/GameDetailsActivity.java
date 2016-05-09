@@ -1,12 +1,19 @@
 package nl.hva.gamesbacklogmanager.activity;
 
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,7 +25,7 @@ import nl.hva.gamesbacklogmanager.utility.DBCRUD;
 /**
  * Created by Raoul on 16-4-2016.
  */
-public class GameDetailsActivity extends AppCompatActivity implements ConfirmDeleteDialog.ConfirmDeleteDialogListener {
+public class GameDetailsActivity extends Activity implements ConfirmDeleteDialog.ConfirmDeleteDialogListener {
     Game game;
 
     TextView title;
@@ -26,6 +33,22 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
     TextView status;
     TextView date;
     TextView notes;
+
+    FloatingActionButton floatingActionButton;
+    FloatingActionButton floatingActionButton1;
+    FloatingActionButton floatingActionButton2;
+    FloatingActionButton floatingActionButton3;
+    //Animations
+    Animation show_fab_1;
+    Animation hide_fab_1;
+    //Animations
+    Animation show_fab_2;
+    Animation hide_fab_2;
+    //Animations
+    Animation show_fab_3;
+    Animation hide_fab_3;
+
+    boolean shown = false;
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
@@ -57,13 +80,23 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.game_detail);
+        setContentView(R.layout.activity_game_detail);
 
         title = (TextView) findViewById(R.id.gameTitle);
         platform = (TextView) findViewById(R.id.gamePlatform);
         status = (TextView) findViewById(R.id.gameStatus);
         date = (TextView) findViewById(R.id.gameDate);
         notes = (TextView) findViewById(R.id.notes);
+
+        //Animations
+        show_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_show);
+        hide_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_hide);
+        //Animations
+        show_fab_2 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab2_show);
+        hide_fab_2 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab2_hide);
+        //Animations
+        show_fab_3 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab3_show);
+        hide_fab_3 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab3_hide);
 
         //Get the game from the intent, which was passed as parameter
         game = (Game) getIntent().getSerializableExtra("selectedGame");
@@ -77,7 +110,103 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
         date.setText(game.getDateAdded());
         notes.setText(game.getNotes());
 
+
+
+
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.action_save);
+        floatingActionButton1 = (FloatingActionButton) findViewById(R.id.fab_1);
+        floatingActionButton2 = (FloatingActionButton) findViewById(R.id.fab_2);
+        floatingActionButton3 = (FloatingActionButton) findViewById(R.id.fab_3);
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(shown)
+                {
+                    hideFab1(floatingActionButton1, hide_fab_1);
+                    hideFab2(floatingActionButton2, hide_fab_2);
+                    hideFab3(floatingActionButton3, hide_fab_3);
+                }
+                else
+                {
+                   // floatingActionButton.setImageResource(android.ic_menu_preferences);
+                    showFab1(floatingActionButton1, show_fab_1);
+                    showFab2(floatingActionButton2, show_fab_2);
+                    showFab3(floatingActionButton3, show_fab_3);
+                }
+
+
+            }
+        });
     }
+
+    private void hideFab1(FloatingActionButton floatingActionButton, Animation animation)
+    {
+        shown = false;
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) floatingActionButton.getLayoutParams();
+        layoutParams.rightMargin -= (int) (floatingActionButton.getWidth() *  1.7);
+        layoutParams.bottomMargin -= (int) (floatingActionButton.getHeight() * 0.25);
+        floatingActionButton.setLayoutParams(layoutParams);
+        floatingActionButton.startAnimation(animation);
+        floatingActionButton.setClickable(false);
+    }
+
+    private void hideFab2(FloatingActionButton floatingActionButton, Animation animation)
+    {
+        shown = false;
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) floatingActionButton.getLayoutParams();
+        layoutParams.rightMargin -= (int) (floatingActionButton.getWidth() *  1.5);
+        layoutParams.bottomMargin -= (int) (floatingActionButton.getHeight() * 1.5);
+        floatingActionButton.setLayoutParams(layoutParams);
+        floatingActionButton.startAnimation(animation);
+        floatingActionButton.setClickable(false);
+    }
+
+    private void hideFab3(FloatingActionButton floatingActionButton, Animation animation)
+    {
+        shown = false;
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) floatingActionButton.getLayoutParams();
+        layoutParams.rightMargin -= (int) (floatingActionButton.getWidth() *  0.25);
+        layoutParams.bottomMargin -= (int) (floatingActionButton.getHeight() * 1.7);
+        floatingActionButton.setLayoutParams(layoutParams);
+        floatingActionButton.startAnimation(animation);
+        floatingActionButton.setClickable(false);
+    }
+
+    private void showFab1(FloatingActionButton floatingActionButton, Animation animation)
+    {
+        shown = true;
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) floatingActionButton.getLayoutParams();
+        layoutParams.rightMargin += (int) (floatingActionButton.getWidth() * 1.7);
+        layoutParams.bottomMargin += (int) (floatingActionButton.getHeight() * 0.25);
+        floatingActionButton.setLayoutParams(layoutParams);
+        floatingActionButton.startAnimation(animation);
+        floatingActionButton.setClickable(true);
+    }
+
+    private void showFab2(FloatingActionButton floatingActionButton, Animation animation)
+    {
+        shown = true;
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) floatingActionButton.getLayoutParams();
+        layoutParams.rightMargin += (int) (floatingActionButton.getWidth() * 1.5);
+        layoutParams.bottomMargin += (int) (floatingActionButton.getHeight() * 1.5);
+        floatingActionButton.setLayoutParams(layoutParams);
+        floatingActionButton.startAnimation(animation);
+        floatingActionButton.setClickable(true);
+    }
+
+    private void showFab3(FloatingActionButton floatingActionButton, Animation animation)
+    {
+        shown = true;
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) floatingActionButton.getLayoutParams();
+        layoutParams.rightMargin += (int) (floatingActionButton.getWidth() * 0.25);
+        layoutParams.bottomMargin += (int) (floatingActionButton.getHeight() * 1.7);
+        floatingActionButton.setLayoutParams(layoutParams);
+        floatingActionButton.startAnimation(animation);
+        floatingActionButton.setClickable(true);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

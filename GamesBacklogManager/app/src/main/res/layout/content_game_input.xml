@@ -51,12 +51,4 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textMultiLine" />
-
-    <Button
-        android:id="@+id/update_game"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/modify_game" />
-
 </LinearLayout>
