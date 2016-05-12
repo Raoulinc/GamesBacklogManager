@@ -12,6 +12,10 @@ import android.view.View;
  */
 public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
 
+    public ScrollAwareFABBehavior(Context context, AttributeSet attrs) {
+        super();
+    }
+
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout,
                                        FloatingActionButton child, View directTargetChild, View target, int nestedScrollAxes) {
@@ -31,10 +35,6 @@ public class ScrollAwareFABBehavior extends FloatingActionButton.Behavior {
         } else if (dyConsumed < 0 && child.getVisibility() != View.VISIBLE) {
             child.show();
         }
-    }
-
-    public ScrollAwareFABBehavior(Context context, AttributeSet attrs) {
-        super();
     }
 
 

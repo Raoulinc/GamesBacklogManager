@@ -4,9 +4,13 @@ package nl.hva.gamesbacklogmanager.utility;
  * Created by Raoul on 3-2-2016.
  */
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import nl.hva.gamesbacklogmanager.model.Game;
 
@@ -15,7 +19,7 @@ class DBHelper extends SQLiteOpenHelper {
     //version number to upgrade database version
     //each time if you Add, Edit table, you need to change the
     //version number.
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
 
     // User Name
     private static final String DATABASE_NAME = "Game.db";
@@ -37,6 +41,32 @@ class DBHelper extends SQLiteOpenHelper {
                 + Game.KEY_NOTES + " TEXT )";
 
         db.execSQL(CREATE_TABLE_GAME);
+
+        //Get the current date in numbered day-month-year format
+        String curDate = getSimpleCurrentDate();
+
+        for (int i = 1; i < 13; i++) {
+            ContentValues values = new ContentValues();
+            values.put(Game.KEY_TITLE, "Test" + i);
+            values.put(Game.KEY_PLATFORM, "PC");
+            values.put(Game.KEY_DATE, curDate);
+            values.put(Game.KEY_STATUS, "Stalled");
+            values.put(Game.KEY_NOTES, "I should stop playing");
+
+            // Inserting Row
+            db.insert(Game.TABLE, null, values);
+        }
+    }
+
+    private String getSimpleCurrentDate() {
+        String curDateString = null;
+        //formatter that will convert dates into the day-month-year format
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        //Today's date, but with time included, which we don't want
+        Date today = new Date();
+        //format.format returns a string
+        curDateString = format.format(today);
+        return curDateString;
     }
 
     @Override

@@ -1,10 +1,10 @@
 package nl.hva.gamesbacklogmanager.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
@@ -23,7 +23,7 @@ import nl.hva.gamesbacklogmanager.utility.DBCRUD;
 /**
  * Created by Raoul on 16-4-2016.
  */
-public class AddGameActivity extends Activity {
+public class AddGameActivity extends AppCompatActivity {
 
     EditText titleInput;
     EditText platformInput;
@@ -35,6 +35,8 @@ public class AddGameActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_input);
+
+        setTitle(getString(R.string.title_screen_add));
 
         titleInput = (EditText) findViewById(R.id.gameTitle);
         platformInput = (EditText) findViewById(R.id.gamePlatform);
@@ -81,7 +83,7 @@ public class AddGameActivity extends Activity {
 
     private void setErrorText(EditText editText, String message) {
         //get the color white in integer form
-        int RGB = android.graphics.Color.argb(255, 255, 255, 255);
+        int RGB = android.graphics.Color.argb(255, 255, 0, 0);
 
         //Object that contains the color white
         ForegroundColorSpan fgcspan = new ForegroundColorSpan(RGB);

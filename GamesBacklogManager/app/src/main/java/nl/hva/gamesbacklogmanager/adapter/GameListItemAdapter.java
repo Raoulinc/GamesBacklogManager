@@ -2,13 +2,11 @@ package nl.hva.gamesbacklogmanager.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Movie;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.List;
@@ -20,7 +18,7 @@ import nl.hva.gamesbacklogmanager.model.Game;
 /**
  * Created by Raoul on 15-4-2016.
  */
-public class GameListItemAdapter extends RecyclerView.Adapter<GameListItemAdapter.ViewHolder>  {
+public class GameListItemAdapter extends RecyclerView.Adapter<GameListItemAdapter.ViewHolder> {
 
     private List<Game> gameArrayList;
     private Context context;
@@ -32,8 +30,6 @@ public class GameListItemAdapter extends RecyclerView.Adapter<GameListItemAdapte
 
         inflater = LayoutInflater.from(context);
     }
-
-
 
     @Override
     public int getItemCount() {

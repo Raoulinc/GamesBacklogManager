@@ -3,19 +3,13 @@ package nl.hva.gamesbacklogmanager.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ListView;
 
 import java.util.List;
@@ -27,48 +21,42 @@ import nl.hva.gamesbacklogmanager.utility.DBCRUD;
 
 
 public class MainActivity extends AppCompatActivity {
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_game_main);
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        setTitle(getString(R.string.title_screen_main));
 
         setListView();
 
-        FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fab);
+        setFloatingActionButton();
+    }
 
+    private void setFloatingActionButton() {
+        FloatingActionButton fab1 = (FloatingActionButton) findViewById(R.id.fab);
         fab1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
                 Intent intent = new Intent(MainActivity.this, AddGameActivity.class);
                 startActivity(intent);
             }
         });
     }
-
-
+    
     private void setListView() {
-
         RecyclerView gameList = (RecyclerView) findViewById(R.id.gameList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         gameList.setLayoutManager(mLayoutManager);
 
         List<Game> games;
 
-        //Create a DBCRUD object, and pass it the context of this activity
+        // Create a DBCRUD object, and pass it the context of this activity
         DBCRUD dbcrud = new DBCRUD(this);
-//get the list of games from Database
+        // Get the list of games from Database
         games = dbcrud.getGames();
 
-        //Game game1 = new Game(1, "Monster Hunter 4", "3DS", new Date(07 / 06 / 2015), "Playing", "");
+        // Game game1 = new Game(1, "Monster Hunter 4", "3DS", new Date(07 / 06 / 2015), "Playing", "");
         // games.add(game1);
 
         final GameListItemAdapter gameListItemAdapter = new GameListItemAdapter(games, this);
@@ -80,8 +68,6 @@ public class MainActivity extends AppCompatActivity {
 
         gameList.setOnClickListener(new RecyclerView.OnClickListener() {
             public void onClick(View view) {
-
-                Log.d("hey", "hey");
 
                 View parentRow = (View) view.getParent();
                 ListView listView = (ListView) parentRow.getParent();
