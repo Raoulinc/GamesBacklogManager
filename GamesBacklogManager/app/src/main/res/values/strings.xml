@@ -39,5 +39,7 @@
     </string-array>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_main3">Main3Activity</string>
+    <string name="title_screen_main">Game Backlog</string>
+    <string name="title_screen_add">Add new Game</string>
 
 </resources>

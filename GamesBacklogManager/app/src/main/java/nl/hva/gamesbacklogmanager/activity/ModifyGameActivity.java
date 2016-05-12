@@ -1,14 +1,12 @@
 package nl.hva.gamesbacklogmanager.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -23,7 +21,7 @@ import nl.hva.gamesbacklogmanager.utility.DBCRUD;
 /**
  * Created by Raoul on 16-4-2016.
  */
-public class ModifyGameActivity extends Activity {
+public class ModifyGameActivity extends AppCompatActivity {
 
     EditText titleInput;
     EditText platformInput;
@@ -36,13 +34,15 @@ public class ModifyGameActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.content_game_input);
+        setContentView(R.layout.activity_game_input);
+
+        setTitle("Modify Game");
 
         titleInput = (EditText) findViewById(R.id.gameTitle);
         platformInput = (EditText) findViewById(R.id.gamePlatform);
         statusSpinner = (Spinner) findViewById(R.id.spinner);
         notesInput = (EditText) findViewById(R.id.notes);
-        saveButton = (FloatingActionButton) findViewById(R.id.submit_area);
+        saveButton = (FloatingActionButton) findViewById(R.id.action_save);
 
         //Get the selected game that we've sent from GameDetailsActivity
         Intent intent = getIntent();
@@ -120,7 +120,7 @@ public class ModifyGameActivity extends Activity {
 
     private void setErrorText(EditText editText, String message) {
         //get the color white in integer form
-        int RGB = android.graphics.Color.argb(255, 255, 255, 255);
+        int RGB = android.graphics.Color.argb(255, 255, 0, 0);
 
         //Object that contains the color white
         ForegroundColorSpan fgcspan = new ForegroundColorSpan(RGB);
@@ -145,24 +145,5 @@ public class ModifyGameActivity extends Activity {
             //Display the correct gameStatus in the Spinner based on the found position
             statusSpinner.setSelection(spinnerPosition);
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_modify_save) {
-            //Go to ModifyGameActivity, and pass the current game with it to modify
-            modifyGame();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_game_modify, menu);
-        return true;
     }
 }
