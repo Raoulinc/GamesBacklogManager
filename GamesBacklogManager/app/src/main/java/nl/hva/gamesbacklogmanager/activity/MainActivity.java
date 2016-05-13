@@ -15,6 +15,7 @@ import android.widget.ListView;
 import java.util.List;
 
 import nl.hva.gamesbacklogmanager.R;
+import nl.hva.gamesbacklogmanager.R.menu;
 import nl.hva.gamesbacklogmanager.adapter.GameListItemAdapter;
 import nl.hva.gamesbacklogmanager.model.Game;
 import nl.hva.gamesbacklogmanager.utility.DBCRUD;
@@ -22,7 +23,7 @@ import nl.hva.gamesbacklogmanager.utility.DBCRUD;
 
 public class MainActivity extends AppCompatActivity {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_game_main);
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    
+
     private void setListView() {
         RecyclerView gameList = (RecyclerView) findViewById(R.id.gameList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -67,14 +68,15 @@ public class MainActivity extends AppCompatActivity {
 
 
         gameList.setOnClickListener(new RecyclerView.OnClickListener() {
+            @Override
             public void onClick(View view) {
 
                 View parentRow = (View) view.getParent();
                 ListView listView = (ListView) parentRow.getParent();
-                final int position = listView.getPositionForView(parentRow);
+                int position = listView.getPositionForView(parentRow);
 
                 Intent intent = new Intent(MainActivity.this, GameDetailsActivity.class);
-                //Get the correct game based on which listitem got clicked, and put it as parameter in the intent
+                // Get the correct game based on which list item got clicked, and put it as parameter in the intent
                 Game selectedGame = (Game) gameListItemAdapter.getItem(position);
                 intent.putExtra("selectedGame", selectedGame);
                 //Open GameDetailsActivity
@@ -88,20 +90,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public final boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(menu.menu_main, menu);
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public final boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
+        if (id == id.action_settings) {
             Intent intent = new Intent(this, AddGameActivity.class);
             startActivity(intent);
         }

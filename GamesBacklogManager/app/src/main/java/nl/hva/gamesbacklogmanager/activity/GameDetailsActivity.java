@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import nl.hva.gamesbacklogmanager.R;
+import nl.hva.gamesbacklogmanager.R.menu;
 import nl.hva.gamesbacklogmanager.model.Game;
 import nl.hva.gamesbacklogmanager.utility.ConfirmDeleteDialog;
 import nl.hva.gamesbacklogmanager.utility.DBCRUD;
@@ -24,39 +25,39 @@ import nl.hva.gamesbacklogmanager.utility.DBCRUD;
  * Created by Raoul on 16-4-2016.
  */
 public class GameDetailsActivity extends AppCompatActivity implements ConfirmDeleteDialog.ConfirmDeleteDialogListener {
-    Game game;
+    private Game game;
 
-    TextView title;
-    TextView platform;
-    TextView status;
-    TextView date;
-    TextView notes;
+    private TextView title;
+    private TextView platform;
+    private TextView status;
+    private TextView date;
+    private TextView notes;
 
-    FloatingActionButton floatingActionButton;
-    FloatingActionButton floatingActionButton1;
-    FloatingActionButton floatingActionButton2;
+    private FloatingActionButton floatingActionButton;
+    private FloatingActionButton floatingActionButton1;
+    private FloatingActionButton floatingActionButton2;
     FloatingActionButton floatingActionButton3;
 
     //Animations
-    Animation show_fab_1;
-    Animation hide_fab_1;
-    Animation show_fab_2;
-    Animation hide_fab_2;
+    private Animation show_fab_1;
+    private Animation hide_fab_1;
+    private Animation show_fab_2;
+    private Animation hide_fab_2;
     Animation show_fab_3;
     Animation hide_fab_3;
 
-    boolean shown = false;
+    private boolean shown;
 
     @Override
-    public void onDialogPositiveClick(DialogFragment dialog) {
+    public final void onDialogPositiveClick(DialogFragment dialog) {
         //User clicked on the confirm button of the Dialog, delete the game from Database
-        DBCRUD dbcrud = new DBCRUD(GameDetailsActivity.this);
+        DBCRUD dbcrud = new DBCRUD(this);
         //We only need the id of the game to delete it
         dbcrud.deleteGame(game.getId());
 
         //Game has been deleted, go back to MainActivity
         showGameDeletedToast();
-        Intent intent = new Intent(GameDetailsActivity.this, MainActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
@@ -65,7 +66,7 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
         //Do nothing, Dialog will disappear
     }
 
-    public void showGameDeletedToast() {
+    private final void showGameDeletedToast() {
         Context context = getApplicationContext();
         String text = getString(R.string.game_deleted);
         int duration = Toast.LENGTH_SHORT;
@@ -87,7 +88,7 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_detail);
 
@@ -148,8 +149,8 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
     private void hideFab1(FloatingActionButton floatingActionButton, Animation animation) {
         shown = false;
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) floatingActionButton.getLayoutParams();
-        layoutParams.rightMargin -= (int) (floatingActionButton.getWidth() * 1.7);
-        layoutParams.bottomMargin -= (int) (floatingActionButton.getHeight() * 0.25);
+        layoutParams.rightMargin -= (int) ((double) floatingActionButton.getWidth() * 1.7);
+        layoutParams.bottomMargin -= (int) ((double) floatingActionButton.getHeight() * 0.25);
         floatingActionButton.setLayoutParams(layoutParams);
         floatingActionButton.startAnimation(animation);
         floatingActionButton.setClickable(false);
@@ -158,8 +159,8 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
     private void hideFab2(FloatingActionButton floatingActionButton, Animation animation) {
         shown = false;
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) floatingActionButton.getLayoutParams();
-        layoutParams.rightMargin -= (int) (floatingActionButton.getWidth() * 1.5);
-        layoutParams.bottomMargin -= (int) (floatingActionButton.getHeight() * 1.5);
+        layoutParams.rightMargin -= (int) ((double) floatingActionButton.getWidth() * 1.5);
+        layoutParams.bottomMargin -= (int) ((double) floatingActionButton.getHeight() * 1.5);
         floatingActionButton.setLayoutParams(layoutParams);
         floatingActionButton.startAnimation(animation);
         floatingActionButton.setClickable(false);
@@ -168,8 +169,8 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
     private void hideFab3(FloatingActionButton floatingActionButton, Animation animation) {
         shown = false;
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) floatingActionButton.getLayoutParams();
-        layoutParams.rightMargin -= (int) (floatingActionButton.getWidth() * 0.25);
-        layoutParams.bottomMargin -= (int) (floatingActionButton.getHeight() * 1.7);
+        layoutParams.rightMargin -= (int) ((double) floatingActionButton.getWidth() * 0.25);
+        layoutParams.bottomMargin -= (int) ((double) floatingActionButton.getHeight() * 1.7);
         floatingActionButton.setLayoutParams(layoutParams);
         floatingActionButton.startAnimation(animation);
         floatingActionButton.setClickable(false);
@@ -178,8 +179,8 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
     private void showFab1(FloatingActionButton floatingActionButton, Animation animation) {
         shown = true;
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) floatingActionButton.getLayoutParams();
-        layoutParams.rightMargin += (int) (floatingActionButton.getWidth() * 1.7);
-        layoutParams.bottomMargin += (int) (floatingActionButton.getHeight() * 0.25);
+        layoutParams.rightMargin += (int) ((double) floatingActionButton.getWidth() * 1.7);
+        layoutParams.bottomMargin += (int) ((double) floatingActionButton.getHeight() * 0.25);
         floatingActionButton.setLayoutParams(layoutParams);
         floatingActionButton.startAnimation(animation);
         floatingActionButton.setClickable(true);
@@ -188,8 +189,8 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
     private void showFab2(FloatingActionButton floatingActionButton, Animation animation) {
         shown = true;
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) floatingActionButton.getLayoutParams();
-        layoutParams.rightMargin += (int) (floatingActionButton.getWidth() * 1.5);
-        layoutParams.bottomMargin += (int) (floatingActionButton.getHeight() * 1.5);
+        layoutParams.rightMargin += (int) ((double) floatingActionButton.getWidth() * 1.5);
+        layoutParams.bottomMargin += (int) ((double) floatingActionButton.getHeight() * 1.5);
         floatingActionButton.setLayoutParams(layoutParams);
         floatingActionButton.startAnimation(animation);
         floatingActionButton.setClickable(true);
@@ -198,8 +199,8 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
     private void showFab3(FloatingActionButton floatingActionButton, Animation animation) {
         shown = true;
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) floatingActionButton.getLayoutParams();
-        layoutParams.rightMargin += (int) (floatingActionButton.getWidth() * 0.25);
-        layoutParams.bottomMargin += (int) (floatingActionButton.getHeight() * 1.7);
+        layoutParams.rightMargin += (int) ((double) floatingActionButton.getWidth() * 0.25);
+        layoutParams.bottomMargin += (int) ((double) floatingActionButton.getHeight() * 1.7);
         floatingActionButton.setLayoutParams(layoutParams);
         floatingActionButton.startAnimation(animation);
         floatingActionButton.setClickable(true);
@@ -207,18 +208,18 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public final boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_modify_game) {
+        if (id == id.action_modify_game) {
             //Go to ModifyGameActivity, and pass the current game with it to modify
-            Intent intent = new Intent(GameDetailsActivity.this, ModifyGameActivity.class);
+            Intent intent = new Intent(this, ModifyGameActivity.class);
             intent.putExtra("currentGame", game);
             startActivity(intent);
-        } else if (id == R.id.action_delete_game) {
+        } else if (id == id.action_delete_game) {
             //Show the ConfirmDeleteDialog
             DialogFragment dialog = new ConfirmDeleteDialog();
-            dialog.show(this.getFragmentManager(), "ConfirmDeleteDialog");
+            dialog.show(getFragmentManager(), "ConfirmDeleteDialog");
         }
 
         return super.onOptionsItemSelected(item);
@@ -226,9 +227,9 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public final boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_game_details, menu);
+        getMenuInflater().inflate(menu.menu_game_details, menu);
         return true;
     }
 

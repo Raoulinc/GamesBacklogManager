@@ -2,6 +2,7 @@ package nl.hva.gamesbacklogmanager.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -25,14 +26,14 @@ import nl.hva.gamesbacklogmanager.utility.DBCRUD;
  */
 public class AddGameActivity extends AppCompatActivity {
 
-    EditText titleInput;
-    EditText platformInput;
-    Spinner statusSpinner;
-    EditText notesInput;
-    FloatingActionButton saveButton;
+    private EditText titleInput;
+    private EditText platformInput;
+    private Spinner statusSpinner;
+    private EditText notesInput;
+    private FloatingActionButton saveButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_input);
 
@@ -62,7 +63,7 @@ public class AddGameActivity extends AppCompatActivity {
         });
     }
 
-    private String getSimpleCurrentDate() {
+    private static String getSimpleCurrentDate() {
         String curDateString = null;
         //formatter that will convert dates into the day-month-year format
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -81,9 +82,9 @@ public class AddGameActivity extends AppCompatActivity {
         toast.show();
     }
 
-    private void setErrorText(EditText editText, String message) {
+    private static void setErrorText(EditText editText, String message) {
         //get the color white in integer form
-        int RGB = android.graphics.Color.argb(255, 255, 0, 0);
+        int RGB = Color.argb(255, 255, 0, 0);
 
         //Object that contains the color white
         ForegroundColorSpan fgcspan = new ForegroundColorSpan(RGB);
@@ -99,24 +100,24 @@ public class AddGameActivity extends AppCompatActivity {
         editText.setError(ssbuilder);
     }
 
-    public void saveGame() {
+    private final void saveGame() {
         //Get the current date in numbered day-month-year format
-        String curDate = getSimpleCurrentDate();
+        String curDate = AddGameActivity.getSimpleCurrentDate();
         //Retrieve the input from the user
         String title = titleInput.getText().toString();
         String platform = platformInput.getText().toString();
         String gameStatus = statusSpinner.getSelectedItem().toString();
         String notes = notesInput.getText().toString();
 
-        if (title.equals("")) {
+        if ("".equals(title)) {
             //Make EditText titleInput display an error message, and display a toast
             //that the title field is empty
-            setErrorText(titleInput, getString(R.string.title_is_required));
+            AddGameActivity.setErrorText(titleInput, getString(R.string.title_is_required));
             showToast(getString(R.string.title_field_is_empty));
-        } else if (platform.equals("")) {
+        } else if ("".equals(platform)) {
             //Make EditText platformInput display an error message, and display a toast
             //that the platform field is empty
-            setErrorText(platformInput, getString(R.string.platform_is_required));
+            AddGameActivity.setErrorText(platformInput, getString(R.string.platform_is_required));
             showToast(getString(R.string.plaftorm_field_is_empty));
         } else {
             //Create a DBCRUD object, and pass it the context of this activity
@@ -129,7 +130,7 @@ public class AddGameActivity extends AppCompatActivity {
             //Notify the user with a toast that the game has been added
             showToast(getString(R.string.game_has_been_added));
             //Go back to MainActivity
-            Intent intent = new Intent(AddGameActivity.this, MainActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         }
     }

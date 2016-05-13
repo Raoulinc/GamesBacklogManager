@@ -17,17 +17,13 @@ import nl.hva.gamesbacklogmanager.model.Game;
  */
 class SharedPreferencesHelper {
 
-    //name of the SharedPreferences file that we will use
-    private final String PREFERENCES_FILE = "gameStorage";
     //name of the location where we've stored our games in SharedPreferences
-    private final String GAMES_KEY = "games";
-    //name of the location where we've stored the newest id
-    private final String ID_KEY = "assignableId";
+    private static final String GAMES_KEY = "games";
 
     //Object where we will store/retrieve games from
-    private SharedPreferences sharedPreferences;
+    private final SharedPreferences sharedPreferences;
     //Object that will convert Objects from and to JSON
-    private Gson gson;
+    private final Gson gson;
     //ArrayList with our stored games
     private List<Game> games = new ArrayList<>();
 
@@ -35,14 +31,15 @@ class SharedPreferencesHelper {
         //get the SharedPreferences from the context. If file gameStorage does not exist,
         //it will be created when we commit our changes.
         //MODE_PRIVATE means that only this application can access file gameStorage
+        String PREFERENCES_FILE = "gameStorage";
         sharedPreferences = context.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
         gson = new Gson();
     }
 
     private List<Game> getGamesFromPreferences() {
         //Get the games list in JSON form from SharedPreferences on the location of GAMES_KEY
-        String gamesListJSON = sharedPreferences.getString(GAMES_KEY, "null");
-        if (!gamesListJSON.equals("null")) {
+        String gamesListJSON = sharedPreferences.getString(SharedPreferencesHelper.GAMES_KEY, "null");
+        if (!"null".equals(gamesListJSON)) {
             //JSON was found in SharedPreferences
 
             //Create a Type object that tells how we want our Games converted from JSON,
@@ -73,7 +70,7 @@ class SharedPreferencesHelper {
         return index;
     }
 
-    public void deleteGame(long id) {
+    public final void deleteGame(long id) {
         //Get the most recent list of games from SharedPreferences
         games = getGamesFromPreferences();
 
@@ -88,7 +85,7 @@ class SharedPreferencesHelper {
     }
 
 
-    public void modifyGame(Game game) {
+    public final void modifyGame(Game game) {
         //Get the most recent list of games from SharedPreferences
         games = getGamesFromPreferences();
 
@@ -109,12 +106,12 @@ class SharedPreferencesHelper {
         //Convert the list of games to a JSON string
         String gameListJSON = gson.toJson(gamesToSave);
         //Put the JSON inside SharedPreferences, assigned to a key (which is the value of GAMES_KEY)
-        editor.putString(GAMES_KEY, gameListJSON);
+        editor.putString(SharedPreferencesHelper.GAMES_KEY, gameListJSON);
         //Commit the changes
         editor.commit();
     }
 
-    public List<Game> getGames() {
+    public final List<Game> getGames() {
         //return the ArrayList that we get from method getGamesFromPreferences
         return getGamesFromPreferences();
     }
@@ -122,17 +119,18 @@ class SharedPreferencesHelper {
 
     private long getAssignableId() {
         //Get the id that we can assign to a game
-        long newId = sharedPreferences.getLong(ID_KEY, 0);
+        String ID_KEY = "assignableId";
+        long newId = sharedPreferences.getLong(ID_KEY, 0L);
 
         //Get an editor and update SharedPreferences with an ID that we can assign to a future game
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putLong(ID_KEY, newId + 1);
+        editor.putLong(ID_KEY, newId + 1L);
         editor.commit();
 
         return newId;
     }
 
-    public void saveGame(Game game) {
+    public final void saveGame(Game game) {
         //Get the most recent list of games from SharedPreferences
         games = getGamesFromPreferences();
         //Give the game the correct id, which we will get from SharedPreferences
