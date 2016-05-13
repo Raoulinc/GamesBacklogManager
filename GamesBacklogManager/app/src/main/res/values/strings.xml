@@ -41,5 +41,6 @@
     <string name="title_activity_main3">Main3Activity</string>
     <string name="title_screen_main">Game Backlog</string>
     <string name="title_screen_add">Add new Game</string>
+    <string name="menu_delete">Delete</string>
 
 </resources>

@@ -23,13 +23,14 @@ class DBHelper extends SQLiteOpenHelper {
 
     // User Name
     private static final String DATABASE_NAME = "Game.db";
+    private static final int num_default_entries = 13;
 
     DBHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        super(context, DBHelper.DATABASE_NAME, null, DBHelper.DATABASE_VERSION);
     }
 
     @Override
-    public final void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase db) {
         //All necessary tables you like to create will create here
 
         String CREATE_TABLE_GAME = "CREATE TABLE " + Game.TABLE + '('
@@ -43,9 +44,9 @@ class DBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_GAME);
 
         //Get the current date in numbered day-month-year format
-        String curDate = getSimpleCurrentDate();
+        String curDate = DBHelper.getSimpleCurrentDate();
 
-        for (int i = 1; i < 13; i++) {
+        for (int i = 1; i < DBHelper.num_default_entries; i++) {
             ContentValues values = new ContentValues();
             values.put(Game.KEY_TITLE, "Test" + i);
             values.put(Game.KEY_PLATFORM, "PC");
@@ -58,7 +59,7 @@ class DBHelper extends SQLiteOpenHelper {
         }
     }
 
-    private String getSimpleCurrentDate() {
+    private static String getSimpleCurrentDate() {
         String curDateString = null;
         //formatter that will convert dates into the day-month-year format
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -70,7 +71,7 @@ class DBHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public final void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older table if existed, all data will be gone!!!
         db.execSQL("DROP TABLE IF EXISTS " + Game.TABLE);
 

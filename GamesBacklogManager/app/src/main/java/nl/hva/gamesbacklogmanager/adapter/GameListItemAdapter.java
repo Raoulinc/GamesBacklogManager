@@ -20,54 +20,53 @@ import nl.hva.gamesbacklogmanager.model.Game;
  */
 public class GameListItemAdapter extends RecyclerView.Adapter<GameListItemAdapter.ViewHolder> {
 
-    private List<Game> gameArrayList;
-    private Context context;
-    private LayoutInflater inflater;
+    private final List<Game> gameArrayList;
+    private final Context context;
 
     public GameListItemAdapter(List<Game> list, Context context) {
-        this.gameArrayList = list;
+        gameArrayList = list;
         this.context = context;
 
-        inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(context);
     }
 
     @Override
-    public int getItemCount() {
+    public final int getItemCount() {
         return gameArrayList.size();
     }
 
-    public Game getItem(int position) {
+    public final Game getItem(int position) {
         return gameArrayList.get(position);
     }
 
     @Override
-    public long getItemId(int position) {
+    public final long getItemId(int position) {
         return gameArrayList.get(position).getId();
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public final GameListItemAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.single_game_item, parent, false);
 
 //        View view = LayoutInflater.from(mContext).inflate(R.layout.myview, parent, false);
 //        view.setOnClickListener(mOnClickListener);
 
-        return new ViewHolder(itemView);
+        return new GameListItemAdapter.ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public final void onBindViewHolder(GameListItemAdapter.ViewHolder holder, int position) {
         //Populate the row
         holder.populateRow(getItem(position));
 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView title;
-        private TextView platform;
-        private TextView status;
-        private TextView date;
+        private final TextView title;
+        private final TextView platform;
+        private final TextView status;
+        private final TextView date;
 
         //initialize the variables
         public ViewHolder(View view) {
@@ -82,8 +81,8 @@ public class GameListItemAdapter extends RecyclerView.Adapter<GameListItemAdapte
         }
 
         @Override
-        public void onClick(View view) {
-            Log.d("hey", "onClick " + getPosition() + " ");
+        public final void onClick(View view) {
+            Log.d("hey", "onClick " + getAdapterPosition() + ' ');
 
             Intent intent = new Intent(context, GameDetailsActivity.class);
             //Get the correct game based on which listitem got clicked, and put it as parameter in the intent
@@ -93,7 +92,7 @@ public class GameListItemAdapter extends RecyclerView.Adapter<GameListItemAdapte
             context.startActivity(intent);
         }
 
-        public void populateRow(Game game) {
+        public final void populateRow(Game game) {
             title.setText(game.getTitle());
             platform.setText(game.getPlatform());
             status.setText(game.getGameStatus());

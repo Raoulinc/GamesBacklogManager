@@ -18,16 +18,16 @@ public class ConfirmDeleteDialog extends DialogFragment {
     * Each method passes the DialogFragment in case the host needs to query it. */
 
     // Use this instance of the interface to deliver action events
-    ConfirmDeleteDialogListener mListener;
+    private ConfirmDeleteDialog.ConfirmDeleteDialogListener mListener;
 
     // Override the Fragment.onAttach() method to instantiate the ConfirmDeleteDialogListener
     @Override
-    public void onAttach(Activity activity) {
+    public final void onAttach(Activity activity) {
         super.onAttach(activity);
         // Verify that the host activity implements the callback interface
         try {
             // Instantiate the ConfirmDeleteDialogListener so we can send events to the host
-            mListener = (ConfirmDeleteDialogListener) activity;
+            mListener = (ConfirmDeleteDialog.ConfirmDeleteDialogListener) activity;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(activity.toString()
@@ -36,16 +36,18 @@ public class ConfirmDeleteDialog extends DialogFragment {
     }
 
     @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
+    public final Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.dialog_game_deletion_confirmation)
                 .setPositiveButton(R.string.delete_game, new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface dialog, int id) {
                         //activate method onDialogPositiveClick inside implementing class
                         mListener.onDialogPositiveClick(ConfirmDeleteDialog.this);
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface dialog, int id) {
                         //activate method onDialogNegativeClick inside implementing class
                         mListener.onDialogNegativeClick(ConfirmDeleteDialog.this);
@@ -56,8 +58,8 @@ public class ConfirmDeleteDialog extends DialogFragment {
 
 
     public interface ConfirmDeleteDialogListener {
-        public void onDialogPositiveClick(DialogFragment dialog);
+        void onDialogPositiveClick(DialogFragment dialog);
 
-        public void onDialogNegativeClick(DialogFragment dialog);
+        void onDialogNegativeClick(DialogFragment dialog);
     }
 }

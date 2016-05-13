@@ -21,7 +21,7 @@ public class DBCRUD {
         dbHelper = new DBHelper(context);
     }
 
-    public int saveGame(Game game) {
+    public final void saveGame(Game game) {
 
         // Open connection to write data
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -37,13 +37,11 @@ public class DBCRUD {
         values.put(Game.KEY_NOTES, game.notes);
 
         // Inserting Row
-        long user_Id = db.insert(Game.TABLE, null, values);
-
+        db.insert(Game.TABLE, null, values);
         db.close(); // Closing database connection
-        return (int) user_Id;
     }
 
-    public final void deleteGame(long user_Id) {
+    public void deleteGame(long user_Id) {
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         // It's a good practice to use parameter ?, instead of concatenate string
@@ -51,7 +49,7 @@ public class DBCRUD {
         db.close(); // Closing database connection
     }
 
-    public final void modifyGame(Game game) {
+    public void modifyGame(Game game) {
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -69,7 +67,7 @@ public class DBCRUD {
         db.close(); // Closing database connection
     }
 
-    public final List<Integer> getGameIDs() // Get list of all Game-IDs in the database
+    public List<Integer> getGameIDs() // Get list of all Game-IDs in the database
     {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
@@ -83,7 +81,7 @@ public class DBCRUD {
 
         if (cursor.moveToFirst()) {
             do {
-                gameIDs.add(cursor.getInt(cursor.getColumnIndex(Game.KEY_ID)));
+                gameIDs.add(Integer.valueOf(cursor.getInt(cursor.getColumnIndex(Game.KEY_ID))));
             } while (cursor.moveToNext());
         }
 
@@ -92,7 +90,7 @@ public class DBCRUD {
         return gameIDs;
     }
 
-    public List<Game> getGames() // Get all games
+    public final List<Game> getGames() // Get all games
     {
         //Open connection to read only
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -114,7 +112,6 @@ public class DBCRUD {
         if (cursor.moveToFirst()) {
             do {
                 Game game = new Game();
-                ;
                 game.setId(cursor.getInt(cursor.getColumnIndex(Game.KEY_ID)));
                 game.setTitle(cursor.getString(cursor.getColumnIndex(Game.KEY_TITLE)));
                 game.setPlatform(cursor.getString(cursor.getColumnIndex(Game.KEY_PLATFORM)));
@@ -131,7 +128,7 @@ public class DBCRUD {
         return gameList;
     }
 
-    public final Game getGameById(int Id) // Get game data by ID
+    public Game getGameById(int Id) // Get game data by ID
     {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 

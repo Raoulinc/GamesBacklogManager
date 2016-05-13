@@ -2,6 +2,7 @@ package nl.hva.gamesbacklogmanager.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -23,16 +24,16 @@ import nl.hva.gamesbacklogmanager.utility.DBCRUD;
  */
 public class ModifyGameActivity extends AppCompatActivity {
 
-    EditText titleInput;
-    EditText platformInput;
-    Spinner statusSpinner;
-    EditText notesInput;
-    FloatingActionButton saveButton;
+    private EditText titleInput;
+    private EditText platformInput;
+    private Spinner statusSpinner;
+    private EditText notesInput;
+    private FloatingActionButton saveButton;
 
-    Game game;
+    private Game game;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected final void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_input);
 
@@ -72,22 +73,22 @@ public class ModifyGameActivity extends AppCompatActivity {
         });
     }
 
-    public void modifyGame() {
+    private final void modifyGame() {
         //Get the input from the Views
         String title = titleInput.getText().toString();
         String platform = platformInput.getText().toString();
         String gameStatus = statusSpinner.getSelectedItem().toString();
         String notes = notesInput.getText().toString();
 
-        if (title.equals("")) {
+        if ("".equals(title)) {
             //Make EditText titleInput display an error message, and display a toast
             //that the title field is empty
-            setErrorText(titleInput, getString(R.string.title_is_required));
+            ModifyGameActivity.setErrorText(titleInput, getString(R.string.title_is_required));
             showToast(getString(R.string.title_field_is_empty));
-        } else if (platform.equals("")) {
+        } else if ("".equals(platform)) {
             //Make EditText platformInput display an error message, and display a toast
             //that the platform field is empty
-            setErrorText(platformInput, getString(R.string.platform_is_required));
+            ModifyGameActivity.setErrorText(platformInput, getString(R.string.platform_is_required));
             showToast(getString(R.string.plaftorm_field_is_empty));
         } else {
             //update the game with the new data
@@ -104,7 +105,7 @@ public class ModifyGameActivity extends AppCompatActivity {
             showToast(getString(R.string.game_has_been_modified));
 
             //Go back to ModifyGameActivity, and pass the updated game with is
-            Intent intent = new Intent(ModifyGameActivity.this, GameDetailsActivity.class);
+            Intent intent = new Intent(this, GameDetailsActivity.class);
             intent.putExtra("selectedGame", game);
             startActivity(intent);
         }
@@ -118,9 +119,9 @@ public class ModifyGameActivity extends AppCompatActivity {
         toast.show();
     }
 
-    private void setErrorText(EditText editText, String message) {
+    private static void setErrorText(EditText editText, String message) {
         //get the color white in integer form
-        int RGB = android.graphics.Color.argb(255, 255, 0, 0);
+        int RGB = Color.argb(255, 255, 0, 0);
 
         //Object that contains the color white
         ForegroundColorSpan fgcspan = new ForegroundColorSpan(RGB);
