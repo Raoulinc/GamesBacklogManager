@@ -14,15 +14,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.GameDetailsActivity" />
         <activity
-            android:name=".activity.ModifyGameActivity" />
-        <activity android:name=".activity.AddGameActivity"
-        android:parentActivityName=".activity.MainActivity">
+            android:name=".activity.GameDetailsActivity"
+            android:parentActivityName=".activity.MainActivity" />
         <!-- Parent activity meta-data to support 4.0 and lower -->
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activity.MainActivity" />
+
+        <activity android:name=".activity.ModifyGameActivity" />
+        <activity
+            android:name=".activity.AddGameActivity"
+            android:parentActivityName=".activity.MainActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
         </activity>
     </application>
 
