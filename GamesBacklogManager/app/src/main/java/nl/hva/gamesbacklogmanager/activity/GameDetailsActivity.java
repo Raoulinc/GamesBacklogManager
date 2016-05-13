@@ -75,17 +75,7 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
         toast.show();
     }
 
-    private void setAnimations() {
-        //Animations
-        show_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_show);
-        hide_fab_1 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab1_hide);
-        //Animations
-        show_fab_2 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab2_show);
-        hide_fab_2 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab2_hide);
-        //Animations
-        show_fab_3 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab3_show);
-        hide_fab_3 = AnimationUtils.loadAnimation(getApplication(), R.anim.fab3_hide);
-    }
+
 
     @Override
     protected final void onCreate(Bundle savedInstanceState) {
@@ -100,7 +90,7 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
         date = (TextView) findViewById(R.id.gameDate);
         notes = (TextView) findViewById(R.id.notes);
 
-        setAnimations();
+
 
         //Get the game from the intent, which was passed as parameter
         game = (Game) getIntent().getSerializableExtra("selectedGame");
@@ -124,99 +114,21 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
                 intent.putExtra("currentGame", game);
                 startActivity(intent);
 
-                setAnimationClickListeners();
+
             }
         });
     }
-
-    private void setAnimationClickListeners() {
-        floatingActionButton1 = (FloatingActionButton) findViewById(R.id.fab_1);
-        floatingActionButton2 = (FloatingActionButton) findViewById(R.id.fab_2);
-        floatingActionButton3 = (FloatingActionButton) findViewById(R.id.fab_3);
-
-        if (shown) {
-            hideFab1(floatingActionButton1, hide_fab_1);
-            hideFab2(floatingActionButton2, hide_fab_2);
-            hideFab3(floatingActionButton3, hide_fab_3);
-        } else {
-            // floatingActionButton.setImageResource(android.ic_menu_preferences);
-            showFab1(floatingActionButton1, show_fab_1);
-            showFab2(floatingActionButton2, show_fab_2);
-            showFab3(floatingActionButton3, show_fab_3);
-        }
-    }
-
-    private void hideFab1(FloatingActionButton floatingActionButton, Animation animation) {
-        shown = false;
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) floatingActionButton.getLayoutParams();
-        layoutParams.rightMargin -= (int) ((double) floatingActionButton.getWidth() * 1.7);
-        layoutParams.bottomMargin -= (int) ((double) floatingActionButton.getHeight() * 0.25);
-        floatingActionButton.setLayoutParams(layoutParams);
-        floatingActionButton.startAnimation(animation);
-        floatingActionButton.setClickable(false);
-    }
-
-    private void hideFab2(FloatingActionButton floatingActionButton, Animation animation) {
-        shown = false;
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) floatingActionButton.getLayoutParams();
-        layoutParams.rightMargin -= (int) ((double) floatingActionButton.getWidth() * 1.5);
-        layoutParams.bottomMargin -= (int) ((double) floatingActionButton.getHeight() * 1.5);
-        floatingActionButton.setLayoutParams(layoutParams);
-        floatingActionButton.startAnimation(animation);
-        floatingActionButton.setClickable(false);
-    }
-
-    private void hideFab3(FloatingActionButton floatingActionButton, Animation animation) {
-        shown = false;
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) floatingActionButton.getLayoutParams();
-        layoutParams.rightMargin -= (int) ((double) floatingActionButton.getWidth() * 0.25);
-        layoutParams.bottomMargin -= (int) ((double) floatingActionButton.getHeight() * 1.7);
-        floatingActionButton.setLayoutParams(layoutParams);
-        floatingActionButton.startAnimation(animation);
-        floatingActionButton.setClickable(false);
-    }
-
-    private void showFab1(FloatingActionButton floatingActionButton, Animation animation) {
-        shown = true;
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) floatingActionButton.getLayoutParams();
-        layoutParams.rightMargin += (int) ((double) floatingActionButton.getWidth() * 1.7);
-        layoutParams.bottomMargin += (int) ((double) floatingActionButton.getHeight() * 0.25);
-        floatingActionButton.setLayoutParams(layoutParams);
-        floatingActionButton.startAnimation(animation);
-        floatingActionButton.setClickable(true);
-    }
-
-    private void showFab2(FloatingActionButton floatingActionButton, Animation animation) {
-        shown = true;
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) floatingActionButton.getLayoutParams();
-        layoutParams.rightMargin += (int) ((double) floatingActionButton.getWidth() * 1.5);
-        layoutParams.bottomMargin += (int) ((double) floatingActionButton.getHeight() * 1.5);
-        floatingActionButton.setLayoutParams(layoutParams);
-        floatingActionButton.startAnimation(animation);
-        floatingActionButton.setClickable(true);
-    }
-
-    private void showFab3(FloatingActionButton floatingActionButton, Animation animation) {
-        shown = true;
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) floatingActionButton.getLayoutParams();
-        layoutParams.rightMargin += (int) ((double) floatingActionButton.getWidth() * 0.25);
-        layoutParams.bottomMargin += (int) ((double) floatingActionButton.getHeight() * 1.7);
-        floatingActionButton.setLayoutParams(layoutParams);
-        floatingActionButton.startAnimation(animation);
-        floatingActionButton.setClickable(true);
-    }
-
 
     @Override
     public final boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == id.action_modify_game) {
+        if (id == R.id.action_modify_game) {
             //Go to ModifyGameActivity, and pass the current game with it to modify
             Intent intent = new Intent(this, ModifyGameActivity.class);
             intent.putExtra("currentGame", game);
             startActivity(intent);
-        } else if (id == id.action_delete_game) {
+        } else if (id == R.id.action_delete_game) {
             //Show the ConfirmDeleteDialog
             DialogFragment dialog = new ConfirmDeleteDialog();
             dialog.show(getFragmentManager(), "ConfirmDeleteDialog");
@@ -229,7 +141,7 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
     @Override
     public final boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(menu.menu_game_details, menu);
+        getMenuInflater().inflate(R.menu.menu_game_details, menu);
         return true;
     }
 
