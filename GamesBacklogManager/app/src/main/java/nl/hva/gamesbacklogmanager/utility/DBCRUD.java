@@ -21,13 +21,10 @@ public class DBCRUD {
         dbHelper = new DBHelper(context);
     }
 
-    public final void saveGame(Game game) {
+    public void saveGame(Game game) {
 
         // Open connection to write data
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        //Get the Date object from the game, and convert it to a day/month/year String, by formatting it with a SimpleDateFormat object
-        //String dateString = new SimpleDateFormat("dd/MM/yyyy").format(game.dateAdded);
 
         ContentValues values = new ContentValues();
         values.put(Game.KEY_TITLE, game.title);
@@ -42,19 +39,20 @@ public class DBCRUD {
     }
 
     public void deleteGame(long user_Id) {
-
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         // It's a good practice to use parameter ?, instead of concatenate string
         db.delete(Game.TABLE, Game.KEY_ID + "= ?", new String[]{String.valueOf(user_Id)});
         db.close(); // Closing database connection
     }
 
-    public void modifyGame(Game game) {
-
+    public void deleteAll() {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db.delete(Game.TABLE, null, null);
+        db.close(); // Closing database connection
+    }
 
-        //Get the Date object from the game, and convert it to a day/month/year String, by formatting it with a SimpleDateFormat object
-        //String dateString = new SimpleDateFormat("dd/MM/yyyy").format(game.dateAdded);
+    public void modifyGame(Game game) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(Game.KEY_TITLE, game.title);
@@ -67,30 +65,7 @@ public class DBCRUD {
         db.close(); // Closing database connection
     }
 
-    public List<Integer> getGameIDs() // Get list of all Game-IDs in the database
-    {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        String selectQuery = "SELECT  " +
-                Game.KEY_ID +
-                " FROM " + Game.TABLE;
-
-        List<Integer> gameIDs = new ArrayList<>();
-
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                gameIDs.add(Integer.valueOf(cursor.getInt(cursor.getColumnIndex(Game.KEY_ID))));
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        db.close();
-        return gameIDs;
-    }
-
-    public final List<Game> getGames() // Get all games
+    public List<Game> getGames() // Get all games
     {
         //Open connection to read only
         SQLiteDatabase db = dbHelper.getReadableDatabase();
@@ -127,39 +102,4 @@ public class DBCRUD {
         db.close();
         return gameList;
     }
-
-    public Game getGameById(int Id) // Get game data by ID
-    {
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-
-        String selectQuery = "SELECT  " +
-                Game.KEY_ID + ',' +
-                Game.KEY_TITLE + ',' +
-                Game.KEY_PLATFORM + ',' +
-                Game.KEY_DATE + ',' +
-                Game.KEY_STATUS + ',' +
-                Game.KEY_NOTES +
-                " FROM " + Game.TABLE +
-                " WHERE " + Game.KEY_ID + "=?";
-
-        Game game = new Game();
-
-        Cursor cursor = db.rawQuery(selectQuery, new String[]{String.valueOf(Id)});
-
-        if (cursor.moveToFirst()) {
-            do {
-                game.id = cursor.getInt(cursor.getColumnIndex(Game.KEY_ID));
-                game.title = cursor.getString(cursor.getColumnIndex(Game.KEY_TITLE));
-                game.platform = cursor.getString(cursor.getColumnIndex(Game.KEY_PLATFORM));
-                game.dateAdded = cursor.getString(cursor.getColumnIndex(Game.KEY_DATE));
-                game.gameStatus = cursor.getString(cursor.getColumnIndex(Game.KEY_STATUS));
-                game.notes = cursor.getString(cursor.getColumnIndex(Game.KEY_NOTES));
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        db.close();
-        return game;
-    }
-
 }

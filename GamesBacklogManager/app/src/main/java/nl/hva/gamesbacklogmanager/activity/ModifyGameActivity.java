@@ -1,5 +1,6 @@
 package nl.hva.gamesbacklogmanager.activity;
 
+import android.R.layout;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -9,12 +10,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import nl.hva.gamesbacklogmanager.R;
+import nl.hva.gamesbacklogmanager.R.array;
+import nl.hva.gamesbacklogmanager.R.id;
+import nl.hva.gamesbacklogmanager.R.string;
 import nl.hva.gamesbacklogmanager.model.Game;
 import nl.hva.gamesbacklogmanager.utility.DBCRUD;
 
@@ -28,24 +33,41 @@ public class ModifyGameActivity extends AppCompatActivity {
     private EditText platformInput;
     private Spinner statusSpinner;
     private EditText notesInput;
-    private FloatingActionButton saveButton;
 
     private Game game;
 
+    private static void setErrorText(EditText editText, String message) {
+        // Get the color white in integer form
+        int RGB = Color.argb(255, 255, 0, 0);
+
+        // Object that contains the color white
+        ForegroundColorSpan fgcspan = new ForegroundColorSpan(RGB);
+
+        // Object that will hold the message, and makes it possible to change the color of the text
+        SpannableStringBuilder ssbuilder = new SpannableStringBuilder(message);
+
+        // Give the message from the first till the last character a white color.
+        // The last '0' means that the message should not display additional behaviour
+        ssbuilder.setSpan(fgcspan, 0, message.length(), 0);
+
+        // Make the EditText display the error message
+        editText.setError(ssbuilder);
+    }
+
     @Override
-    protected final void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_input);
 
         setTitle("Modify Game");
 
-        titleInput = (EditText) findViewById(R.id.gameTitle);
-        platformInput = (EditText) findViewById(R.id.gamePlatform);
-        statusSpinner = (Spinner) findViewById(R.id.spinner);
-        notesInput = (EditText) findViewById(R.id.notes);
-        saveButton = (FloatingActionButton) findViewById(R.id.action_save);
+        titleInput = (EditText) findViewById(id.gameTitle);
+        platformInput = (EditText) findViewById(id.gamePlatform);
+        statusSpinner = (Spinner) findViewById(id.spinner);
+        notesInput = (EditText) findViewById(id.notes);
+        FloatingActionButton saveButton = (FloatingActionButton) findViewById(id.action_save);
 
-        //Get the selected game that we've sent from GameDetailsActivity
+        // Get the selected game that we've sent from GameDetailsActivity
         Intent intent = getIntent();
         game = (Game) intent.getSerializableExtra("currentGame");
 
@@ -55,17 +77,17 @@ public class ModifyGameActivity extends AppCompatActivity {
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter statusAdapter = ArrayAdapter.createFromResource(this,
-                R.array.game_status, android.R.layout.simple_spinner_item);
+                array.game_status, layout.simple_spinner_item);
 
         // Specify the layout to use when the list of choices appears
-        statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        statusAdapter.setDropDownViewResource(layout.simple_spinner_dropdown_item);
 
-//Set the adapter to the spinner
+        // Set the adapter to the spinner
         statusSpinner.setAdapter(statusAdapter);
 
         setSpinnerPosition(statusAdapter);
 
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        saveButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 modifyGame();
@@ -73,38 +95,38 @@ public class ModifyGameActivity extends AppCompatActivity {
         });
     }
 
-    private final void modifyGame() {
-        //Get the input from the Views
+    private void modifyGame() {
+        // Get the input from the Views
         String title = titleInput.getText().toString();
         String platform = platformInput.getText().toString();
         String gameStatus = statusSpinner.getSelectedItem().toString();
         String notes = notesInput.getText().toString();
 
-        if ("".equals(title)) {
-            //Make EditText titleInput display an error message, and display a toast
-            //that the title field is empty
-            ModifyGameActivity.setErrorText(titleInput, getString(R.string.title_is_required));
-            showToast(getString(R.string.title_field_is_empty));
-        } else if ("".equals(platform)) {
-            //Make EditText platformInput display an error message, and display a toast
-            //that the platform field is empty
-            ModifyGameActivity.setErrorText(platformInput, getString(R.string.platform_is_required));
-            showToast(getString(R.string.plaftorm_field_is_empty));
+        if (title != null && title.isEmpty()) {
+            // Make EditText titleInput display an error message, and display a toast
+            // That the title field is empty
+            ModifyGameActivity.setErrorText(titleInput, getString(string.title_is_required));
+            showToast(getString(string.title_field_is_empty));
+        } else if (platform != null && platform.isEmpty()) {
+            // Make EditText platformInput display an error message, and display a toast
+            // That the platform field is empty
+            ModifyGameActivity.setErrorText(platformInput, getString(string.platform_is_required));
+            showToast(getString(string.plaftorm_field_is_empty));
         } else {
-            //update the game with the new data
+            // Update the game with the new data
             game.setTitle(title);
             game.setPlatform(platform);
             game.setGameStatus(gameStatus);
             game.setNotes(notes);
 
-            //Create a DBCRUD object, and pass it the context of this activity
+            // Create a DBCRUD object, and pass it the context of this activity
             DBCRUD dbcrud = new DBCRUD(this);
             dbcrud.modifyGame(game);
 
             //Notify the user of the success
-            showToast(getString(R.string.game_has_been_modified));
+            showToast(getString(string.game_has_been_modified));
 
-            //Go back to ModifyGameActivity, and pass the updated game with is
+            //Go back to ModifyGameActivity, and pass the updated game with it
             Intent intent = new Intent(this, GameDetailsActivity.class);
             intent.putExtra("selectedGame", game);
             startActivity(intent);
@@ -119,31 +141,12 @@ public class ModifyGameActivity extends AppCompatActivity {
         toast.show();
     }
 
-    private static void setErrorText(EditText editText, String message) {
-        //get the color white in integer form
-        int RGB = Color.argb(255, 255, 0, 0);
-
-        //Object that contains the color white
-        ForegroundColorSpan fgcspan = new ForegroundColorSpan(RGB);
-
-        //object that will hold the message, and makes it possible to change the color of the text
-        SpannableStringBuilder ssbuilder = new SpannableStringBuilder(message);
-
-        //give the message from the first till the last character a white color.
-        //The last '0' means that the message should not display additional behaviour
-        ssbuilder.setSpan(fgcspan, 0, message.length(), 0);
-
-        //Make the EditText display the error message
-        editText.setError(ssbuilder);
-    }
-
-
     private void setSpinnerPosition(ArrayAdapter adapter) {
         if (!game.getGameStatus().equals(null)) {
-            //Gets the position of the correct spinner item by comparing
-            //which item of the Spinner matches with the gameStatus
+            // Gets the position of the correct spinner item by comparing
+            // which item of the Spinner matches with the gameStatus
             int spinnerPosition = adapter.getPosition(game.getGameStatus());
-            //Display the correct gameStatus in the Spinner based on the found position
+            // Display the correct gameStatus in the Spinner based on the found position
             statusSpinner.setSelection(spinnerPosition);
         }
     }

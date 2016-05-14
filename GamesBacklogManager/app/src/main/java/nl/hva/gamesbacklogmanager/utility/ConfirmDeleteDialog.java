@@ -1,13 +1,14 @@
 package nl.hva.gamesbacklogmanager.utility;
 
 import android.app.Activity;
-import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 
-import nl.hva.gamesbacklogmanager.R;
+import nl.hva.gamesbacklogmanager.R.string;
 
 /**
  * Created by Raoul on 16-4-2016.
@@ -18,16 +19,16 @@ public class ConfirmDeleteDialog extends DialogFragment {
     * Each method passes the DialogFragment in case the host needs to query it. */
 
     // Use this instance of the interface to deliver action events
-    private ConfirmDeleteDialog.ConfirmDeleteDialogListener mListener;
+    private ConfirmDeleteDialogListener mListener;
 
     // Override the Fragment.onAttach() method to instantiate the ConfirmDeleteDialogListener
     @Override
-    public final void onAttach(Activity activity) {
+    public void onAttach(Activity activity) {
         super.onAttach(activity);
         // Verify that the host activity implements the callback interface
         try {
             // Instantiate the ConfirmDeleteDialogListener so we can send events to the host
-            mListener = (ConfirmDeleteDialog.ConfirmDeleteDialogListener) activity;
+            mListener = (ConfirmDeleteDialogListener) activity;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(activity.toString()
@@ -36,26 +37,26 @@ public class ConfirmDeleteDialog extends DialogFragment {
     }
 
     @Override
-    public final Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(R.string.dialog_game_deletion_confirmation)
-                .setPositiveButton(R.string.delete_game, new DialogInterface.OnClickListener() {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        String message = getArguments().getString("message");
+        Builder builder = new Builder(getActivity());
+        builder.setMessage(message)
+                .setPositiveButton(string.dialog_game_deletion_positive, new OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        //activate method onDialogPositiveClick inside implementing class
+                        // Activate method onDialogPositiveClick inside implementing class
                         mListener.onDialogPositiveClick(ConfirmDeleteDialog.this);
                     }
                 })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                .setNegativeButton(string.dialog_game_deletion_negative, new OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        //activate method onDialogNegativeClick inside implementing class
+                        // Activate method onDialogNegativeClick inside implementing class
                         mListener.onDialogNegativeClick(ConfirmDeleteDialog.this);
                     }
                 });
         return builder.create();
     }
-
 
     public interface ConfirmDeleteDialogListener {
         void onDialogPositiveClick(DialogFragment dialog);
