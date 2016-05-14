@@ -12,21 +12,25 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import nl.hva.gamesbacklogmanager.R;
 import nl.hva.gamesbacklogmanager.model.Game;
 
 
 class DBHelper extends SQLiteOpenHelper {
-    //version number to upgrade database version
-    //each time if you Add, Edit table, you need to change the
-    //version number.
-    private static final int DATABASE_VERSION = 9;
+    // Version number to upgrade database version
+    // each time if you Add, Edit table, you need to change the
+    // version number.
 
-    // User Name
+    private static final int DATABASE_VERSION = 10;
+
+    // Database Name
     private static final String DATABASE_NAME = "Game.db";
-    private static final int num_default_entries = 13;
+
+    private final Context context;
 
     DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     private static String getSimpleCurrentDate() {
@@ -55,9 +59,12 @@ class DBHelper extends SQLiteOpenHelper {
         //Get the current date in numbered day-month-year format
         String curDate = getSimpleCurrentDate();
 
-        for (int i = 1; i < num_default_entries; i++) {
+        String[] titles = context.getResources().getStringArray(R.array.game_titles);
+
+        for (int i = 1; i < titles.length; i++) {
             ContentValues values = new ContentValues();
-            values.put(Game.KEY_TITLE, "Test " + i);
+
+            values.put(Game.KEY_TITLE, titles[i]);
             values.put(Game.KEY_PLATFORM, "PC");
             values.put(Game.KEY_DATE, curDate);
             values.put(Game.KEY_STATUS, "Stalled");

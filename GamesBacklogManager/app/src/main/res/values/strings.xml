@@ -15,6 +15,12 @@
     <string name="plaftorm_field_is_empty">Platform field is empty</string>
     <string name="game_has_been_added">Game has been added</string>
     <string name="game_has_been_modified">Game has been modified</string>
+    <string name="title_screen_main">Game Backlog</string>
+    <string name="title_screen_add">Add new Game</string>
+    <string name="string_menu_delete_all">Delete All</string>
+    <string name="action_database_clear">Database Cleared</string>
+    <string name="dialog_game_deletion_single">Are you sure you want to delete this game?</string>
+    <string name="dialog_game_deletion_all">Are you sure you want to delete all games?</string>
 
     <!--String that we are going to use for the Spinner-->
     <string-array name="game_status">
@@ -23,11 +29,22 @@
         <item>Stalled</item>
         <item>Dropped</item>
     </string-array>
-    <string name="title_screen_main">Game Backlog</string>
-    <string name="title_screen_add">Add new Game</string>
-    <string name="string_menu_delete_all">Delete All</string>
-    <string name="action_database_clear">Database Cleared</string>
-    <string name="dialog_game_deletion_single">Are you sure you want to delete this game?</string>
-    <string name="dialog_game_deletion_all">Are you sure you want to delete all games?</string>
+
+    <!--String that we are going to use for the Test Objects-->
+    <string-array name="game_titles">
+        <item>Battlefield 4</item>
+        <item>Call of Duty</item>
+        <item>Snake</item>
+        <item>Overwatch</item>
+        <item>Doom</item>
+        <item>The Division</item>
+        <item>Hitman 6</item>
+        <item>Final Fantasy</item>
+        <item>Uncharted</item>
+        <item>Far Cry</item>
+        <item>Street Fighter</item>
+        <item>Sims 2</item>
+        <item>Flappy Bird</item>
+    </string-array>
 
 </resources>
