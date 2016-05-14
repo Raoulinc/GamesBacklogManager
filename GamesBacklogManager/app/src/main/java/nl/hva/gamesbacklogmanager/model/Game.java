@@ -26,9 +26,6 @@ public class Game implements Serializable {
     public String gameStatus;
     public String notes;
 
-    public Game() {
-    }
-
     public Game(int id, String title, String platform, String dateAdded, String gameStatus, String notes) {
         this.id = id;
         this.title = title;
@@ -38,51 +35,55 @@ public class Game implements Serializable {
         this.notes = notes;
     }
 
-    public final long getId() {
-        return (long) id;
+    public Game() {
+
     }
 
-    public final void setId(int id) {
+    public long getId() {
+        return id;
+    }
+
+    public void setId(int id) {
         this.id = id;
     }
 
-    public final String getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public final void setTitle(String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
-    public final String getPlatform() {
+    public String getPlatform() {
         return platform;
     }
 
-    public final void setPlatform(String platform) {
+    public void setPlatform(String platform) {
         this.platform = platform;
     }
 
-    public final String getDateAdded() {
+    public String getDateAdded() {
         return dateAdded;
     }
 
-    public final void setDateAdded(String dateAdded) {
+    public void setDateAdded(String dateAdded) {
         this.dateAdded = dateAdded;
     }
 
-    public final String getGameStatus() {
+    public String getGameStatus() {
         return gameStatus;
     }
 
-    public final void setGameStatus(String gameStatus) {
+    public void setGameStatus(String gameStatus) {
         this.gameStatus = gameStatus;
     }
 
-    public final String getNotes() {
+    public String getNotes() {
         return notes;
     }
 
-    public final void setNotes(String notes) {
+    public void setNotes(String notes) {
         this.notes = notes;
     }
 }

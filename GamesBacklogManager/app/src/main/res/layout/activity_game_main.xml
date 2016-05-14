@@ -18,6 +18,4 @@
         android:src="@android:drawable/ic_input_add"
         app:layout_behavior="nl.hva.gamesbacklogmanager.utility.ScrollAwareFABBehavior"/>
 
-
-
 </android.support.design.widget.CoordinatorLayout>
