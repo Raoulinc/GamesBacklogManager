@@ -122,7 +122,7 @@ public class AddGameActivity extends AppCompatActivity {
             // Make EditText platformInput display an error message, and display a toast
             // That the platform field is empty
             AddGameActivity.setErrorText(platformInput, getString(string.platform_is_required));
-            showToast(getString(string.plaftorm_field_is_empty));
+            showToast(getString(string.platform_field_is_empty));
         } else {
             // Create a DBCRUD object, and pass it the context of this activity
             DBCRUD dbcrud = new DBCRUD(this);
