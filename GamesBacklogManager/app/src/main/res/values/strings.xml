@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GamesBacklogManager</string>
+    <string name="app_name">Game Backlog</string>
     <string name="title">Title</string>
     <string name="platform">Platform</string>
     <string name="status">Status</string>
@@ -12,7 +12,7 @@
     <string name="title_is_required">Title is required!</string>
     <string name="platform_is_required">Platform is required!</string>
     <string name="title_field_is_empty">Title field is empty</string>
-    <string name="plaftorm_field_is_empty">Platform field is empty</string>
+    <string name="platform_field_is_empty">Platform field is empty</string>
     <string name="game_has_been_added">Game has been added</string>
     <string name="game_has_been_modified">Game has been modified</string>
     <string name="title_screen_main">Game Backlog</string>

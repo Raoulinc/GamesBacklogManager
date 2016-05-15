@@ -111,7 +111,7 @@ public class ModifyGameActivity extends AppCompatActivity {
             // Make EditText platformInput display an error message, and display a toast
             // That the platform field is empty
             ModifyGameActivity.setErrorText(platformInput, getString(string.platform_is_required));
-            showToast(getString(string.plaftorm_field_is_empty));
+            showToast(getString(string.platform_field_is_empty));
         } else {
             // Update the game with the new data
             game.setTitle(title);
