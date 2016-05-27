@@ -8,6 +8,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class DBCRUD {
     }
 
     public void deleteGame(long user_Id) {
+        Log.d("Database", "Deleted: " + user_Id);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         // It's a good practice to use parameter ?, instead of concatenate string
         db.delete(Game.TABLE, Game.KEY_ID + "= ?", new String[]{String.valueOf(user_Id)});
@@ -62,6 +64,13 @@ public class DBCRUD {
         values.put(Game.KEY_NOTES, game.notes);
 
         db.update(Game.TABLE, values, Game.KEY_ID + "= ?", new String[]{String.valueOf(game.id)});
+        db.close(); // Closing database connection
+    }
+
+    public void updateGame(long user_Id) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+
         db.close(); // Closing database connection
     }
 

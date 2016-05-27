@@ -8,10 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import java.util.List;
 
+import nl.hva.gamesbacklogmanager.R;
 import nl.hva.gamesbacklogmanager.R.id;
 import nl.hva.gamesbacklogmanager.R.layout;
 import nl.hva.gamesbacklogmanager.activity.GameDetailsActivity;
@@ -29,8 +32,6 @@ public class GameListItemAdapter extends Adapter<ViewHolder> {
     public GameListItemAdapter(List<Game> list, Context context) {
         gameArrayList = list;
         this.context = context;
-
-        LayoutInflater inflater = LayoutInflater.from(context);
     }
 
     @Override
@@ -54,10 +55,16 @@ public class GameListItemAdapter extends Adapter<ViewHolder> {
         return new ViewHolder(itemView);
     }
 
+    public void animate(RecyclerView.ViewHolder viewHolder) {
+        Animation animAnticipateOvershoot = AnimationUtils.loadAnimation(context, R.anim.bounce_interpolator);
+        viewHolder.itemView.setAnimation(animAnticipateOvershoot);
+    }
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         //Populate the row
         holder.populateRow(getItem(position));
+        animate(holder);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
@@ -82,7 +89,7 @@ public class GameListItemAdapter extends Adapter<ViewHolder> {
         public void onClick(View view) {
             Intent intent = new Intent(context, GameDetailsActivity.class);
             // Get the correct game based on which listitem got clicked, and put it as parameter in the intent
-            Game selectedGame = getItem(getAdapterPosition());
+            Game selectedGame = getItem(getOldPosition());
             intent.putExtra("selectedGame", selectedGame);
             // Open GameDetailsActivity
             context.startActivity(intent);

@@ -69,7 +69,7 @@ public class ModifyGameActivity extends AppCompatActivity {
 
         // Get the selected game that we've sent from GameDetailsActivity
         Intent intent = getIntent();
-        game = (Game) intent.getSerializableExtra("currentGame");
+        game = (Game) intent.getSerializableExtra("selectedGame");
 
         titleInput.setText(game.getTitle());
         platformInput.setText(game.getPlatform());
@@ -129,7 +129,9 @@ public class ModifyGameActivity extends AppCompatActivity {
             //Go back to ModifyGameActivity, and pass the updated game with it
             Intent intent = new Intent(this, GameDetailsActivity.class);
             intent.putExtra("selectedGame", game);
+            intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
             startActivity(intent);
+            finish();
         }
     }
 

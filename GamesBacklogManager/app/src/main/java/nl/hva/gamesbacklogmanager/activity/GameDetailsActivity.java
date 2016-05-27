@@ -83,8 +83,9 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(GameDetailsActivity.this, ModifyGameActivity.class);
-                intent.putExtra("currentGame", game);
+                intent.putExtra("selectedGame", game);
                 startActivity(intent);
+                finish();
             }
         });
     }

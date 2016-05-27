@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.LayoutManager;
@@ -59,8 +60,7 @@ public class MainActivity extends AppCompatActivity implements ConfirmDeleteDial
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     startActivity(intent,
                             ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
-                }
-                else {
+                } else {
                     startActivity(intent);
                 }
             }
@@ -83,26 +83,22 @@ public class MainActivity extends AppCompatActivity implements ConfirmDeleteDial
             gameList.setAdapter(gameListItemAdapter);
         }
 
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        itemAnimator.setAddDuration(1000);
+        itemAnimator.setRemoveDuration(1000);
+        gameList.setItemAnimator(itemAnimator);
+
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                if (viewHolder.getAdapterPosition() < target.getAdapterPosition()) {
-                    for (int i = viewHolder.getAdapterPosition(); i < target.getAdapterPosition(); i++) {
-                        Collections.swap(games, i, i + 1);
-                    }
-                } else {
-                    for (int i = viewHolder.getAdapterPosition(); i > target.getAdapterPosition(); i--) {
-                        Collections.swap(games, i, i - 1);
-                    }
-                }
+                Collections.swap(games, viewHolder.getAdapterPosition(), target.getAdapterPosition());
                 // Notify adapter Content has changed
-                gameListItemAdapter.notifyDataSetChanged();
+                gameListItemAdapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
                 // Create a DBCRUD object, and pass it the context of this activity
                 DBCRUD dbcrud = new DBCRUD(MainActivity.this);
                 // Delete the list of games from Database
                 dbcrud.deleteAll();
-                for(Game game : games)
-                {
+                for (Game game : games) {
                     dbcrud.saveGame(game);
                 }
                 return false;
@@ -111,17 +107,16 @@ public class MainActivity extends AppCompatActivity implements ConfirmDeleteDial
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
                 //Remove swiped item from list and notify the RecyclerView
-
                 // Create a DBCRUD object, and pass it the context of this activity
                 DBCRUD dbcrud = new DBCRUD(MainActivity.this);
                 // Delete the list of games from Database
-                dbcrud.deleteGame(viewHolder.getAdapterPosition());
-                // Remove all games from temporary list
+                dbcrud.deleteGame(games.get(viewHolder.getAdapterPosition()).getId());
+                // Remove game from temporary list
                 games.remove(viewHolder.getAdapterPosition());
                 // Display toast with Feedback
                 showToast(getString(string.swipe_delete));
                 // Notify adapter Content has changed
-                gameListItemAdapter.notifyDataSetChanged();
+                gameListItemAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
             }
         };
 
@@ -129,30 +124,29 @@ public class MainActivity extends AppCompatActivity implements ConfirmDeleteDial
 
         itemTouchHelper.attachToRecyclerView(gameList);
 
-        gameList.setOnClickListener(new RecyclerView.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                View parentRow = (View) view.getParent();
-                ListView listView = (ListView) parentRow.getParent();
-                int position = listView.getPositionForView(parentRow);
-
-                Intent intent = new Intent(MainActivity.this, GameDetailsActivity.class);
-                // Get the correct game based on which list item got clicked, and put it as parameter in the intent
-                Game selectedGame = gameListItemAdapter.getItem(position);
-                intent.putExtra("selectedGame", selectedGame);
-                // Open GameDetailsActivity
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    startActivity(intent,
-                            ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
-                }
-                else {
-                    startActivity(intent);
-                }
-            }
-
-
-        });
+//        gameList.setOnClickListener(new RecyclerView.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                View parentRow = (View) view.getParent();
+//                ListView listView = (ListView) parentRow.getParent();
+//                int position = listView.getPositionForView(parentRow);
+//
+//                Intent intent = new Intent(MainActivity.this, GameDetailsActivity.class);
+//                // Get the correct game based on which list item got clicked, and put it as parameter in the intent
+//                Game selectedGame = gameListItemAdapter.getItem(position);
+//                intent.putExtra("selectedGame", selectedGame);
+//                // Open GameDetailsActivity
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    startActivity(intent,
+//                            ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
+//                } else {
+//                    startActivity(intent);
+//                }
+//            }
+//
+//
+//        });
     }
 
     @Override
@@ -187,6 +181,16 @@ public class MainActivity extends AppCompatActivity implements ConfirmDeleteDial
 
         Toast toast = Toast.makeText(context, message, duration);
         toast.show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        // Create a DBCRUD object, and pass it the context of this activity
+        DBCRUD dbcrud = new DBCRUD(this);
+        // Get the list of games from Database
+        games = dbcrud.getGames();
+        gameListItemAdapter.notifyDataSetChanged();
     }
 
     @Override
