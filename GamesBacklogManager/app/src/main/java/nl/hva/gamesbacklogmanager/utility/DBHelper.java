@@ -59,6 +59,8 @@ class DBHelper extends SQLiteOpenHelper {
         //Get the current date in numbered day-month-year format
         String curDate = getSimpleCurrentDate();
 
+        // Fill database with Dummy Games
+
         String[] titles = context.getResources().getStringArray(R.array.game_titles);
 
         for (int i = 1; i < titles.length; i++) {
