@@ -21,6 +21,7 @@
     <string name="action_database_clear">Database Cleared</string>
     <string name="dialog_game_deletion_single">Are you sure you want to delete this game?</string>
     <string name="dialog_game_deletion_all">Are you sure you want to delete all games?</string>
+    <string name="swipe_delete">Game Deleted</string>
 
     <!--String that we are going to use for the Spinner-->
     <string-array name="game_status">
