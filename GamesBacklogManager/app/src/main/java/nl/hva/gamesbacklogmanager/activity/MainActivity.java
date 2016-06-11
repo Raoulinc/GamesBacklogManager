@@ -17,7 +17,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.Collections;
@@ -68,9 +67,10 @@ public class MainActivity extends AppCompatActivity implements ConfirmDeleteDial
     }
 
     private void setListView() {
-        final RecyclerView gameList = (RecyclerView) findViewById(id.gameList);
+        final RecyclerView gameListView = (RecyclerView) findViewById(id.gameList);
         LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        gameList.setLayoutManager(mLayoutManager);
+        gameListView.setLayoutManager(mLayoutManager);
+        gameListView.setHasFixedSize(true);
 
         // Create a DBCRUD object, and pass it the context of this activity
         DBCRUD dbcrud = new DBCRUD(this);
@@ -79,20 +79,22 @@ public class MainActivity extends AppCompatActivity implements ConfirmDeleteDial
 
         gameListItemAdapter = new GameListItemAdapter(games, this);
 
-        if (gameList != null) {
-            gameList.setAdapter(gameListItemAdapter);
+        if (gameListView != null) {
+            gameListView.setAdapter(gameListItemAdapter);
         }
 
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         itemAnimator.setAddDuration(1000);
         itemAnimator.setRemoveDuration(1000);
-        gameList.setItemAnimator(itemAnimator);
+        gameListView.setItemAnimator(itemAnimator);
 
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                // Swap the Cards
                 Collections.swap(games, viewHolder.getAdapterPosition(), target.getAdapterPosition());
                 // Notify adapter Content has changed
+                gameListItemAdapter.updateList(games);
                 gameListItemAdapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
                 // Create a DBCRUD object, and pass it the context of this activity
                 DBCRUD dbcrud = new DBCRUD(MainActivity.this);
@@ -101,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements ConfirmDeleteDial
                 for (Game game : games) {
                     dbcrud.saveGame(game);
                 }
-                return false;
+                return true;
             }
 
             @Override
@@ -111,42 +113,23 @@ public class MainActivity extends AppCompatActivity implements ConfirmDeleteDial
                 DBCRUD dbcrud = new DBCRUD(MainActivity.this);
                 // Delete the list of games from Database
                 dbcrud.deleteGame(games.get(viewHolder.getAdapterPosition()).getId());
+
                 // Remove game from temporary list
                 games.remove(viewHolder.getAdapterPosition());
+
+                // Notify adapter Content has changed
+                gameListItemAdapter.updateList(games);
+                gameListItemAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+                gameListItemAdapter.notifyItemRangeChanged(viewHolder.getAdapterPosition(), games.size());
+
                 // Display toast with Feedback
                 showToast(getString(string.swipe_delete));
-                // Notify adapter Content has changed
-                gameListItemAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
             }
         };
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
 
-        itemTouchHelper.attachToRecyclerView(gameList);
-
-//        gameList.setOnClickListener(new RecyclerView.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                View parentRow = (View) view.getParent();
-//                ListView listView = (ListView) parentRow.getParent();
-//                int position = listView.getPositionForView(parentRow);
-//
-//                Intent intent = new Intent(MainActivity.this, GameDetailsActivity.class);
-//                // Get the correct game based on which list item got clicked, and put it as parameter in the intent
-//                Game selectedGame = gameListItemAdapter.getItem(position);
-//                intent.putExtra("selectedGame", selectedGame);
-//                // Open GameDetailsActivity
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//                    startActivity(intent,
-//                            ActivityOptions.makeSceneTransitionAnimation(MainActivity.this).toBundle());
-//                } else {
-//                    startActivity(intent);
-//                }
-//            }
-//
-//
-//        });
+        itemTouchHelper.attachToRecyclerView(gameListView);
     }
 
     @Override

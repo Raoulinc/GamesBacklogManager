@@ -25,7 +25,6 @@ import nl.hva.gamesbacklogmanager.model.Game;
  * Created by Raoul on 15-4-2016.
  */
 public class GameListItemAdapter extends Adapter<ViewHolder> {
-
     private final List<Game> gameArrayList;
     private final Context context;
 
@@ -60,6 +59,12 @@ public class GameListItemAdapter extends Adapter<ViewHolder> {
         viewHolder.itemView.setAnimation(animAnticipateOvershoot);
     }
 
+    public void updateList(List<Game> newlist) {
+        // Set new updated list
+        gameArrayList.clear();
+        gameArrayList.addAll(newlist);
+    }
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         //Populate the row
@@ -89,7 +94,7 @@ public class GameListItemAdapter extends Adapter<ViewHolder> {
         public void onClick(View view) {
             Intent intent = new Intent(context, GameDetailsActivity.class);
             // Get the correct game based on which listitem got clicked, and put it as parameter in the intent
-            Game selectedGame = getItem(getOldPosition());
+            Game selectedGame = getItem(getAdapterPosition());
             intent.putExtra("selectedGame", selectedGame);
             // Open GameDetailsActivity
             context.startActivity(intent);

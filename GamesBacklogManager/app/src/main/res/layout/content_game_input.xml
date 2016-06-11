@@ -7,6 +7,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:elevation="5dp"
         android:text="@string/title"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -14,11 +15,13 @@
         android:id="@+id/gameTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="5dp"
         android:inputType="textCapSentences" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:elevation="5dp"
         android:text="@string/platform"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -26,11 +29,13 @@
         android:id="@+id/gamePlatform"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="5dp"
         android:inputType="text" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:elevation="5dp"
         android:text="@string/status"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -42,6 +47,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:elevation="5dp"
         android:text="@string/notes"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -49,6 +55,7 @@
         android:id="@+id/notes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="5dp"
         android:ems="10"
         android:inputType="textMultiLine" />
 </LinearLayout>
