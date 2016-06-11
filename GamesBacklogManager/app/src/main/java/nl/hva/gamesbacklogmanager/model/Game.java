@@ -40,7 +40,7 @@ public class Game implements Serializable {
     }
 
     public long getId() {
-        return id;
+        return (long) id;
     }
 
     public void setId(int id) {

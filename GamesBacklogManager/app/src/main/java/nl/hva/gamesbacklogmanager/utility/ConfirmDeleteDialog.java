@@ -19,7 +19,7 @@ public class ConfirmDeleteDialog extends DialogFragment {
     * Each method passes the DialogFragment in case the host needs to query it. */
 
     // Use this instance of the interface to deliver action events
-    private ConfirmDeleteDialogListener mListener;
+    ConfirmDeleteDialogListener mListener;
 
     // Override the Fragment.onAttach() method to instantiate the ConfirmDeleteDialogListener
     @Override

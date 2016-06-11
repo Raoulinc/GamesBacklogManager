@@ -67,13 +67,6 @@ public class DBCRUD {
         db.close(); // Closing database connection
     }
 
-    public void updateGame(long user_Id) {
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-
-        db.close(); // Closing database connection
-    }
-
     public List<Game> getGames() // Get all games
     {
         //Open connection to read only

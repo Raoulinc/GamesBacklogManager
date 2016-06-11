@@ -95,19 +95,19 @@ public class ModifyGameActivity extends AppCompatActivity {
         });
     }
 
-    private void modifyGame() {
+    void modifyGame() {
         // Get the input from the Views
         String title = titleInput.getText().toString();
         String platform = platformInput.getText().toString();
         String gameStatus = statusSpinner.getSelectedItem().toString();
         String notes = notesInput.getText().toString();
 
-        if (title != null && title.isEmpty()) {
+        if ((title != null) && title.isEmpty()) {
             // Make EditText titleInput display an error message, and display a toast
             // That the title field is empty
             ModifyGameActivity.setErrorText(titleInput, getString(string.title_is_required));
             showToast(getString(string.title_field_is_empty));
-        } else if (platform != null && platform.isEmpty()) {
+        } else if ((platform != null) && platform.isEmpty()) {
             // Make EditText platformInput display an error message, and display a toast
             // That the platform field is empty
             ModifyGameActivity.setErrorText(platformInput, getString(string.platform_is_required));
@@ -126,13 +126,20 @@ public class ModifyGameActivity extends AppCompatActivity {
             //Notify the user of the success
             showToast(getString(string.game_has_been_modified));
 
-            //Go back to ModifyGameActivity, and pass the updated game with it
-            Intent intent = new Intent(this, GameDetailsActivity.class);
-            intent.putExtra("selectedGame", game);
-            intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NO_HISTORY);
-            startActivity(intent);
+            // Starting the previous Intent
+            Intent previousActivity = new Intent(this, GameDetailsActivity.class);
+            // Sending the data to GameDetailsActivity
+            previousActivity.putExtra("selectedGame", game);
+            setResult(1000, previousActivity);
             finish();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onResume();  // Always call the superclass method first
+        // Save game and go back to MainActivity
+        modifyGame();
     }
 
     private void showToast(String message) {

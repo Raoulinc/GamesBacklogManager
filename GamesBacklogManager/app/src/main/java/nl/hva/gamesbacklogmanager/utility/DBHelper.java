@@ -21,7 +21,7 @@ class DBHelper extends SQLiteOpenHelper {
     // each time if you Add, Edit table, you need to change the
     // version number.
 
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 1;
 
     // Database Name
     private static final String DATABASE_NAME = "Game.db";

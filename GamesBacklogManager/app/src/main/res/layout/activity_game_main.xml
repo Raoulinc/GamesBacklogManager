@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:padding="4dp"
     tools:context=".activity.MainActivity">
 
     <include layout="@layout/content_game_main" />

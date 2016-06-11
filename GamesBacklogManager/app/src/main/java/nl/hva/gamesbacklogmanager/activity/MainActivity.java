@@ -35,8 +35,8 @@ import nl.hva.gamesbacklogmanager.utility.DBCRUD;
 
 public class MainActivity extends AppCompatActivity implements ConfirmDeleteDialogListener {
 
-    private GameListItemAdapter gameListItemAdapter;
-    private List<Game> games;
+    GameListItemAdapter gameListItemAdapter;
+    List<Game> games;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements ConfirmDeleteDial
     }
 
     private void setListView() {
-        final RecyclerView gameListView = (RecyclerView) findViewById(id.gameList);
+        RecyclerView gameListView = (RecyclerView) findViewById(id.gameList);
         LayoutManager mLayoutManager = new LinearLayoutManager(this);
         gameListView.setLayoutManager(mLayoutManager);
         gameListView.setHasFixedSize(true);
@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity implements ConfirmDeleteDial
         }
 
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        itemAnimator.setAddDuration(1000);
-        itemAnimator.setRemoveDuration(1000);
+        itemAnimator.setAddDuration(1000L);
+        itemAnimator.setRemoveDuration(1000L);
         gameListView.setItemAnimator(itemAnimator);
 
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements ConfirmDeleteDial
         // Display toast with Feedback
         showToast(getString(string.action_database_clear));
         // Notify adapter Content has changed
+        gameListItemAdapter.updateList(games);
         gameListItemAdapter.notifyDataSetChanged();
     }
 
@@ -158,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements ConfirmDeleteDial
         return true;
     }
 
-    private void showToast(String message) {
+    void showToast(String message) {
         Context context = getApplicationContext();
         int duration = Toast.LENGTH_SHORT;
 
@@ -173,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements ConfirmDeleteDial
         DBCRUD dbcrud = new DBCRUD(this);
         // Get the list of games from Database
         games = dbcrud.getGames();
+        gameListItemAdapter.updateList(games);
         gameListItemAdapter.notifyDataSetChanged();
     }
 

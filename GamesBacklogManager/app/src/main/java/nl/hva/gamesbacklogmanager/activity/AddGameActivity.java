@@ -2,7 +2,6 @@ package nl.hva.gamesbacklogmanager.activity;
 
 import android.R.layout;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -103,7 +102,7 @@ public class AddGameActivity extends AppCompatActivity {
         toast.show();
     }
 
-    private void saveGame() {
+    void saveGame() {
         // Get the current date in numbered day-month-year format
         String curDate = AddGameActivity.getSimpleCurrentDate();
 
@@ -113,12 +112,12 @@ public class AddGameActivity extends AppCompatActivity {
         String gameStatus = statusSpinner.getSelectedItem().toString();
         String notes = notesInput.getText().toString();
 
-        if (title != null && title.isEmpty()) {
+        if ((title != null) && title.isEmpty()) {
             // Make EditText titleInput display an error message, and display a toast
             // That the title field is empty
             AddGameActivity.setErrorText(titleInput, getString(string.title_is_required));
             showToast(getString(string.title_field_is_empty));
-        } else if (platform != null && platform.isEmpty()) {
+        } else if ((platform != null) && platform.isEmpty()) {
             // Make EditText platformInput display an error message, and display a toast
             // That the platform field is empty
             AddGameActivity.setErrorText(platformInput, getString(string.platform_is_required));
@@ -130,12 +129,10 @@ public class AddGameActivity extends AppCompatActivity {
             Game game = new Game(-1, title, platform, curDate, gameStatus, notes);
             // Save the game to the Database
             dbcrud.saveGame(game);
-
             // Notify the user with a toast that the game has been added
             showToast(getString(string.game_has_been_added));
             // Go back to MainActivity
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            finish();
         }
     }
 

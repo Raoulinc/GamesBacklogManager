@@ -1,8 +1,10 @@
 package nl.hva.gamesbacklogmanager.activity;
 
+import android.app.ActivityOptions;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -27,7 +29,7 @@ import nl.hva.gamesbacklogmanager.utility.DBCRUD;
  */
 public class GameDetailsActivity extends AppCompatActivity implements ConfirmDeleteDialogListener {
 
-    private Game game;
+    Game game;
 
     @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
@@ -35,11 +37,9 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
         DBCRUD dbcrud = new DBCRUD(this);
         // We only need the id of the game to delete it
         dbcrud.deleteGame(game.getId());
-
         // Game has been deleted, go back to MainActivity
         showGameDeletedToast();
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -63,14 +63,18 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
 
         setTitle("Details");
 
+        // Get the game from the intent, which was passed as parameter
+        game = (Game) getIntent().getSerializableExtra("selectedGame");
+
+        setGameView();
+    }
+
+    private void setGameView() {
         TextView title = (TextView) findViewById(id.gameTitle);
         TextView platform = (TextView) findViewById(id.gamePlatform);
         TextView status = (TextView) findViewById(id.gameStatus);
         TextView date = (TextView) findViewById(id.gameDate);
         TextView notes = (TextView) findViewById(id.notes);
-
-        // Get the game from the intent, which was passed as parameter
-        game = (Game) getIntent().getSerializableExtra("selectedGame");
 
         title.setText(game.getTitle());
         platform.setText(game.getPlatform());
@@ -84,10 +88,22 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
             public void onClick(View view) {
                 Intent intent = new Intent(GameDetailsActivity.this, ModifyGameActivity.class);
                 intent.putExtra("selectedGame", game);
-                startActivity(intent);
-                finish();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    startActivityForResult(intent, 1000,
+                            ActivityOptions.makeSceneTransitionAnimation(GameDetailsActivity.this).toBundle());
+                } else {
+                    startActivityForResult(intent, 1000);
+                }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        // Set the Game Card with the updated game
+        game = (Game) data.getSerializableExtra("selectedGame");
+        setGameView();
     }
 
     @Override
@@ -105,13 +121,10 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
         return super.onOptionsItemSelected(item);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_game_details, menu);
         return true;
     }
-
-
 }

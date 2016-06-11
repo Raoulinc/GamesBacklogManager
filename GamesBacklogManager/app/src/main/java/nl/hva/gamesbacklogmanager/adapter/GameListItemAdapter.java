@@ -25,8 +25,8 @@ import nl.hva.gamesbacklogmanager.model.Game;
  * Created by Raoul on 15-4-2016.
  */
 public class GameListItemAdapter extends Adapter<ViewHolder> {
+    final Context context;
     private final List<Game> gameArrayList;
-    private final Context context;
 
     public GameListItemAdapter(List<Game> list, Context context) {
         gameArrayList = list;
@@ -38,7 +38,7 @@ public class GameListItemAdapter extends Adapter<ViewHolder> {
         return gameArrayList.size();
     }
 
-    public Game getItem(int position) {
+    private Game getItem(int position) {
         return gameArrayList.get(position);
     }
 
@@ -54,7 +54,7 @@ public class GameListItemAdapter extends Adapter<ViewHolder> {
         return new ViewHolder(itemView);
     }
 
-    public void animate(RecyclerView.ViewHolder viewHolder) {
+    private void animate(RecyclerView.ViewHolder viewHolder) {
         Animation animAnticipateOvershoot = AnimationUtils.loadAnimation(context, R.anim.bounce_interpolator);
         viewHolder.itemView.setAnimation(animAnticipateOvershoot);
     }
