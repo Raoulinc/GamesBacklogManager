@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -62,6 +63,9 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
         setContentView(layout.activity_game_detail);
 
         setTitle("Details");
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Get the game from the intent, which was passed as parameter
         game = (Game) getIntent().getSerializableExtra("selectedGame");

@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:showDividers="beginning|end"
-        card_view:cardBackgroundColor="@color/cardview_dark_background"
+        card_view:cardBackgroundColor="@color/cardview_light_background"
         card_view:cardCornerRadius="8dp"
         card_view:cardElevation="8dp">
 

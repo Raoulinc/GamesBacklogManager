@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
@@ -68,6 +69,9 @@ public class AddGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game_input);
 
         setTitle(getString(string.title_screen_add));
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         titleInput = (EditText) findViewById(id.gameTitle);
         platformInput = (EditText) findViewById(id.gamePlatform);
