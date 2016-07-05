@@ -62,13 +62,16 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_game_detail);
 
-        setTitle("Details");
-
+        // Sets the Toolbar to act as the ActionBar for this Activity window.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         // Get the game from the intent, which was passed as parameter
         game = (Game) getIntent().getSerializableExtra("selectedGame");
+
+        setTitle(game.getTitle());
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         setGameView();
     }
@@ -119,6 +122,7 @@ public class GameDetailsActivity extends AppCompatActivity implements ConfirmDel
             DialogFragment dialog = new ConfirmDeleteDialog();
             Bundle bundle = new Bundle();
             bundle.putString("message", getString(string.dialog_game_deletion_single));
+            bundle.putString("positiveButton", getString(string.dialog_game_deletion_positive));
             dialog.setArguments(bundle);
             dialog.show(getFragmentManager(), "ConfirmDeleteDialog");
         }

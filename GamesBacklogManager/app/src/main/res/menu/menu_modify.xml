@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
     <item
-        android:id="@+id/action_delete_all"
+        android:id="@+id/action_cancel"
         android:orderInCategory="1"
-        android:title="@string/string_menu_delete_all"
-        app:showAsAction="never" />
+        android:title="@string/menu_action_cancel"
+        app:showAsAction="ifRoom" />
 </menu>

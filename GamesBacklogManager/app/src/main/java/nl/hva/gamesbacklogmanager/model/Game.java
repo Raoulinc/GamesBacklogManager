@@ -18,13 +18,13 @@ public class Game implements Serializable {
     public static final String KEY_STATUS = "status";
     public static final String KEY_NOTES = "notes";
 
-    // property help us to keep data
-    public int id;
-    public String title;
-    public String platform;
-    public String dateAdded; // String, since you cannot save date/time values in SQLite
-    public String gameStatus;
-    public String notes;
+    // Property help us to keep data
+    private int id;
+    private String title;
+    private String platform;
+    private String dateAdded; // String, since you cannot save date/time values in SQLite
+    private String gameStatus;
+    private String notes;
 
     public Game(int id, String title, String platform, String dateAdded, String gameStatus, String notes) {
         this.id = id;

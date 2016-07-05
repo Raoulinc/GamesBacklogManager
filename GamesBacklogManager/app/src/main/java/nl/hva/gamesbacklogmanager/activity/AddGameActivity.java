@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -68,10 +69,13 @@ public class AddGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_input);
 
-        setTitle(getString(string.title_screen_add));
-
+        // Sets the Toolbar to act as the ActionBar for this Activity window.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        setTitle(getString(string.title_screen_add));
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         titleInput = (EditText) findViewById(id.gameTitle);
         platformInput = (EditText) findViewById(id.gamePlatform);
@@ -140,4 +144,27 @@ public class AddGameActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                cancelModifyGame();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void cancelModifyGame() {
+        // Notify the user with a toast that the game has not been saved
+        showToast(getString(string.game_has_been_modified_negative));
+        // Go back to MainActivity
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onResume();  // Always call the superclass method first
+        cancelModifyGame();
+    }
 }

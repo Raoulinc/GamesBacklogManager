@@ -28,11 +28,11 @@ public class DBCRUD {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(Game.KEY_TITLE, game.title);
-        values.put(Game.KEY_PLATFORM, game.platform);
-        values.put(Game.KEY_DATE, game.dateAdded);
-        values.put(Game.KEY_STATUS, game.gameStatus);
-        values.put(Game.KEY_NOTES, game.notes);
+        values.put(Game.KEY_TITLE, game.getTitle());
+        values.put(Game.KEY_PLATFORM, game.getPlatform());
+        values.put(Game.KEY_DATE, game.getDateAdded());
+        values.put(Game.KEY_STATUS, game.getGameStatus());
+        values.put(Game.KEY_NOTES, game.getNotes());
 
         // Inserting Row
         db.insert(Game.TABLE, null, values);
@@ -57,13 +57,13 @@ public class DBCRUD {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(Game.KEY_TITLE, game.title);
-        values.put(Game.KEY_PLATFORM, game.platform);
-        values.put(Game.KEY_DATE, game.dateAdded);
-        values.put(Game.KEY_STATUS, game.gameStatus);
-        values.put(Game.KEY_NOTES, game.notes);
+        values.put(Game.KEY_TITLE, game.getTitle());
+        values.put(Game.KEY_PLATFORM, game.getPlatform());
+        values.put(Game.KEY_DATE, game.getDateAdded());
+        values.put(Game.KEY_STATUS, game.getGameStatus());
+        values.put(Game.KEY_NOTES, game.getNotes());
 
-        db.update(Game.TABLE, values, Game.KEY_ID + "= ?", new String[]{String.valueOf(game.id)});
+        db.update(Game.TABLE, values, Game.KEY_ID + "= ?", new String[]{String.valueOf(game.getId())});
         db.close(); // Closing database connection
     }
 

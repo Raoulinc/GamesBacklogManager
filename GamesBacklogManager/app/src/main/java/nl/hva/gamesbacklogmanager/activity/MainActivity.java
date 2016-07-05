@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Collections;
@@ -44,10 +45,15 @@ public class MainActivity extends AppCompatActivity implements ConfirmDeleteDial
         super.onCreate(savedInstanceState);
 
         setContentView(layout.activity_game_main);
-        setTitle(getString(string.title_screen_main));
 
+        // Sets the Toolbar to act as the ActionBar for this Activity window.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        // Remove default title text
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        // Get access to the custom title view
+        TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        mTitle.setText(getString(string.title_screen_main));
 
         setListView();
 
@@ -194,6 +200,7 @@ public class MainActivity extends AppCompatActivity implements ConfirmDeleteDial
             DialogFragment dialog = new ConfirmDeleteDialog();
             Bundle bundle = new Bundle();
             bundle.putString("message", getString(string.dialog_game_deletion_all));
+            bundle.putString("positiveButton", getString(string.dialog_game_deletion_positive));
             dialog.setArguments(bundle);
             dialog.show(getFragmentManager(), "ConfirmDeleteDialog");
         }

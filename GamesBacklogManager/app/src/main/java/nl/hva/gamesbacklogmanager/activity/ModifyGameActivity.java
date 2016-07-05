@@ -1,6 +1,7 @@
 package nl.hva.gamesbacklogmanager.activity;
 
 import android.R.layout;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -10,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
@@ -22,13 +25,14 @@ import nl.hva.gamesbacklogmanager.R.array;
 import nl.hva.gamesbacklogmanager.R.id;
 import nl.hva.gamesbacklogmanager.R.string;
 import nl.hva.gamesbacklogmanager.model.Game;
+import nl.hva.gamesbacklogmanager.utility.ConfirmDeleteDialog;
 import nl.hva.gamesbacklogmanager.utility.DBCRUD;
 
 
 /**
  * Created by Raoul on 16-4-2016.
  */
-public class ModifyGameActivity extends AppCompatActivity {
+public class ModifyGameActivity extends AppCompatActivity implements ConfirmDeleteDialog.ConfirmDeleteDialogListener {
 
     private EditText titleInput;
     private EditText platformInput;
@@ -60,10 +64,13 @@ public class ModifyGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_input);
 
-        setTitle("Modify Game");
-
+        // Sets the Toolbar to act as the ActionBar for this Activity window.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        setTitle("Modify Game");
 
         titleInput = (EditText) findViewById(id.gameTitle);
         platformInput = (EditText) findViewById(id.gamePlatform);
@@ -154,6 +161,32 @@ public class ModifyGameActivity extends AppCompatActivity {
         toast.show();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                modifyGame();
+                return true;
+            case id.action_cancel:
+                // Show the ConfirmDeleteDialog
+                DialogFragment dialog = new ConfirmDeleteDialog();
+                Bundle bundle = new Bundle();
+                bundle.putString("message", getString(string.dialog_game_discard));
+                bundle.putString("positiveButton", getString(string.dialog_game_modify_positive));
+                dialog.setArguments(bundle);
+                dialog.show(getFragmentManager(), "ConfirmDeleteDialog");
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_modify, menu);
+        return true;
+    }
+
     private void setSpinnerPosition(ArrayAdapter adapter) {
         if (!game.getGameStatus().equals(null)) {
             // Gets the position of the correct spinner item by comparing
@@ -162,5 +195,20 @@ public class ModifyGameActivity extends AppCompatActivity {
             // Display the correct gameStatus in the Spinner based on the found position
             statusSpinner.setSelection(spinnerPosition);
         }
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog) {
+        // Starting the previous Intent
+        Intent previousActivity = new Intent(this, GameDetailsActivity.class);
+        // Sending the data to GameDetailsActivity
+        previousActivity.putExtra("selectedGame", game);
+        setResult(1000, previousActivity);
+        finish();
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog) {
+        // Do nothing, Dialog will disappear
     }
 }

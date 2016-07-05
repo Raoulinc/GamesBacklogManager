@@ -39,9 +39,10 @@ public class ConfirmDeleteDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String message = getArguments().getString("message");
+        String positiveButton = getArguments().getString("positiveButton");
         Builder builder = new Builder(getActivity());
         builder.setMessage(message)
-                .setPositiveButton(string.dialog_game_deletion_positive, new OnClickListener() {
+                .setPositiveButton(positiveButton, new OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         // Activate method onDialogPositiveClick inside implementing class
